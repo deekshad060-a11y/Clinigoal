@@ -10,7 +10,7 @@ export default function CoursesPage() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const API = "http://localhost:5000";
+  const API = "https://clinigoal2025.onrender.com"; // production backend URL
 
   useEffect(() => {
     const fetchCourses = async () => {
