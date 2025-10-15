@@ -33,6 +33,7 @@ export default function UserDashboard() {
   agree: false,
   paid: false,
 });
+  const API = "https://clinigoal2025.onrender.com"; // production backend URL
 const [userFeedback, setUserFeedback] = useState([]);
 
 const [showFeedback, setShowFeedback] = useState(false);
@@ -73,7 +74,6 @@ useEffect(() => {
 }, []);
 
   const token = localStorage.getItem("token");
-  const API = "http://localhost:5000";
 
 useEffect(() => {
   const fetchUserData = async () => {
