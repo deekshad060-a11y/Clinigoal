@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import TestimonialManger from "../Admin/Testimonialmanger";
 export default function HomePage() {
   const [courses, setCourses] = useState([]);
-  const API = "http://localhost:5000"; // backend URL
+  const API = "https://clinigoal2025.onrender.com"; // production backend URL // backend URL
   useEffect(() => {
     axios
       .get(`${API}/courses`)
