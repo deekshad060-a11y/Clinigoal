@@ -10,11 +10,11 @@ export default function SignupForm() {
   const [msg, setMsg] = useState("");
   const [msgType, setMsgType] = useState(""); // success or error
   const [showPassword, setShowPassword] = useState(false);
-
+const API = "https://clinigoal2025.onrender.com"; // production backend URL
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/auth/signup", {
+      const res = await fetch("https://clinigoal2025.onrender.com/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password, role }),
