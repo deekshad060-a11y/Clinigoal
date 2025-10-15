@@ -1,0 +1,70 @@
+.courses-page {
+  padding: 3rem 8%;
+  background: #f9fafc;
+  color: #1f2937;
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+}
+
+.courses-page h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #1e3a8a;
+  margin-bottom: 2rem;
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.course-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.course-card h3 {
+  color: #1e40af;
+  margin-bottom: 0.5rem;
+}
+
+.course-card p {
+  color: #4b5563;
+  font-size: 0.95rem;
+  margin-bottom: 0.8rem;
+}
+
+.duration {
+  font-weight: 500;
+  color: #2563eb;
+}
+
+.btn-view {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-view:hover {
+  background: #1e3a8a;
+}
+
+.loading-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  gap: 10px;
+  font-size: 1.2rem;
+}

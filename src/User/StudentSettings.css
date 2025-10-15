@@ -1,0 +1,405 @@
+/* Container */
+.profile-settings {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  font-family: "Inter", sans-serif;
+  color: #333;
+}
+
+.profile-settings.dark {
+  background-color: #1f2937;
+  color: #f3f4f6;
+}
+
+/* Profile photo */
+.profile-photo-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.profile-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #4f46e5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-photo-placeholder {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #4f46e5;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.photo-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.photo-buttons .photo-icon {
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: #4f46e5;
+  transition: all 0.2s ease;
+}
+
+.photo-buttons .photo-icon.delete {
+  color: #ef4444;
+}
+
+.photo-buttons .photo-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Form */
+.form-section input,
+.form-section textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  color: #111827;
+  background-color: #f9fafb;
+}
+
+.profile-settings.dark .form-section input,
+.profile-settings.dark .form-section textarea {
+  background-color: #374151;
+  border: 1px solid #4b5563;
+  color: #f3f4f6;
+}
+
+/* Settings section */
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.settings-section label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.font-size-buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.font-size-buttons button {
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background-color: #e5e7eb;
+  color: #111827;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.font-size-buttons button.active {
+  background-color: #4f46e5;
+  color: #fff;
+}
+
+.font-size-buttons button:hover {
+  transform: scale(1.05);
+}
+
+/* Save button */
+.save-btn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background-color: #4f46e5;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.save-btn:hover {
+  background-color: #4338ca;
+}
+
+/* Sidebar/navbar updated profile */
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.sidebar-user img,
+.sidebar-user .profile-photo-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  font-size: 1rem;
+  text-align: center;
+  line-height: 40px;
+  background-color: #4f46e5;
+  color: #fff;
+}
+
+.user-name-sidebar {
+  font-weight: 500;
+  color: white;
+}
+
+.sidebars.dark .user-name-sidebar {
+  color: #f3f4f6;
+}
+/* Security Modal Styling */
+.security-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+}
+
+.security-modal {
+  background: var(--card-bg, #fff);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+  text-align: center;
+  width: 350px;
+  animation: fadeIn 0.3s ease;
+}
+
+.security-modal h3 {
+  margin-bottom: 0.8rem;
+}
+
+.security-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.security-change-btn,
+.security-forgot-btn,
+.security-cancel-btn {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.security-change-btn {
+  background: #007bff;
+  color: white;
+}
+.security-forgot-btn {
+  background: #ff4757;
+  color: white;
+}
+.security-cancel-btn {
+  background: #ddd;
+  color: #333;
+}
+
+.security-btn {
+  background: #4b7bec;
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 1rem;
+  transition: 0.3s;
+}
+.security-btn:hover {
+  background: #3867d6;
+}
+
+.logout-btn {
+  background: #ff4b5c;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  margin-top: 1.5rem;
+  width: 100%;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.logout-btn:hover {
+  background: #d63a4a;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+.profile-settings {
+  width: 80%;
+  max-width: 700px;
+  margin: 30px auto;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  padding: 30px;
+  transition: all 0.3s ease;
+}
+
+.profile-settings.dark {
+  background: #222;
+  color: #f0f0f0;
+}
+
+.profile-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.profile-tabs button {
+  padding: 10px 20px;
+  border: none;
+  background: #eaeaea;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.profile-tabs button.active {
+  background: #007bff;
+  color: white;
+}
+
+.profile-photo-section {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.profile-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-photo-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #ccc;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.photo-buttons {
+  margin-top: 10px;
+}
+
+.photo-icon {
+  font-size: 22px;
+  cursor: pointer;
+  margin: 0 6px;
+  color: #007bff;
+  transition: 0.3s;
+}
+
+.photo-icon.delete {
+  color: #dc3545;
+}
+
+.overview-section h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.overview-details {
+  margin-top: 15px;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.edit-section input,
+.edit-section textarea,
+.edit-section select {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.save-btn {
+  background: #007bff;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 8px;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 auto;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.save-btn:hover {
+  background: #0056b3;
+}
+
+.logout-btn {
+  margin-top: 25px;
+  background: #dc3545;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background: #b02a37;
+}

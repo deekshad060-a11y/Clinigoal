@@ -1,0 +1,114 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1e3a8a;
+  color: white;
+  padding: 10px 20px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.nav-search {
+  position: relative; /* important for dropdown positioning */
+  flex: 2;
+  min-width: 500px;
+  max-width: 500px;
+  margin: 0 20px;
+}
+
+.nav-search input {
+  width: 100%;
+  padding: 12px 45px 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #f9fafb;
+  transition: all 0.3s ease;
+}
+
+.nav-search input::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Dropdown container */
+.search-dropdown {
+  position: absolute;
+  top: 100%; /* directly below input */
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+  border-radius: 0 0 6px 6px;
+}
+
+/* Each dropdown item */
+.search-dropdown p {
+  color: black;
+  padding: 10px 15px;
+  margin: 0;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.search-dropdown p:hover {
+  background-color: #f0f0f0;
+}
+
+
+.nav-buttons {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.btn {
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: white;
+  color: #1e3a8a;
+}
+
+.dropdowns {
+  position: relative;
+}
+
+.dropdown-contents {
+  display: none;
+  position: absolute;
+  top: 35px;
+  background-color: white;
+  color: #111827;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.dropdowns:hover .dropdown-contents {
+  display: block;
+}
+
+.dropdown-contents p {
+  padding: 10px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.dropdown-contents p:hover {
+  background-color: #f1f1f1;
+}

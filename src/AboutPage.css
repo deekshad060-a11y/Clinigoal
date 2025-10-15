@@ -1,0 +1,176 @@
+/* General Reset */
+.about-page {
+  font-family: 'Poppins', sans-serif;
+  color: #1f2937;
+  line-height: 1.6;
+  background-color: #f9fafb;
+}
+
+.about-hero {
+  text-align: center;
+  padding: 6rem 2rem 4rem;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: white;
+  border-radius: 0 0 50% 50% / 0 0 5% 5%;
+}
+
+.about-hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.about-hero p {
+  font-size: 1.25rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Mission & Vision */
+.mission-vision {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 4rem 2rem;
+}
+
+.mission-vision .card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 15px;
+  flex: 1 1 300px;
+  max-width: 400px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.mission-vision .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.12);
+}
+
+.mission-vision h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Core Values */
+.values {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.values h2 {
+  font-size: 2rem;
+  margin-bottom: 3rem;
+}
+
+.value-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.value-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.value-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.15);
+}
+
+.value-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.8rem;
+  color: #3b82f6;
+}
+
+/* Workflow Section */
+.workflow {
+  padding: 4rem 2rem;
+  background-color: #f3f4f6;
+  text-align: center;
+}
+
+.workflow h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.workflow ol {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.workflow li {
+  background: white;
+  padding: 1.8rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.07);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.workflow li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+}
+
+.workflow li strong {
+  display: block;
+  font-size: 1.1rem;
+  color: #2563eb;
+  margin-bottom: 0.5rem;
+}
+
+/* CTA Section */
+.about-cta {
+  padding: 6rem 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: white;
+  border-radius: 50px 50px 0 0;
+}
+
+.about-cta h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.about-cta p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.about-cta .btn-primary {
+  background-color: #facc15;
+  color: #1f2937;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.about-cta .btn-primary:hover {
+  background-color: #f59e0b;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mission-vision, .value-grid, .workflow ol {
+    grid-template-columns: 1fr;
+  }
+}

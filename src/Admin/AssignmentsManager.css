@@ -1,0 +1,519 @@
+/* ===================== CONTAINER ===================== */
+.assignments-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #1f2937;
+  background: linear-gradient(to right, #b6bbc1, #e0e7ff);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* ===================== HEADER ===================== */
+h2 {
+  font-size: 40px;
+  font-weight: 700;
+  text-align: left;
+  margin-top: 10px;
+  margin-bottom: 25px;
+  color: #1e1e2f;
+}
+
+/* ===================== TOGGLE BUTTONS ===================== */
+.toggle-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.toggle-buttons button {
+  padding: 20px 40px;
+  border: none;
+  border-radius: 10px;
+  background: #e8ebff;
+  color: #333;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-buttons button.active {
+  background: #4f46e5;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(79,70,229,0.3);
+}
+
+.toggle-buttons button:hover {
+  background: #dee3ff;
+}
+
+/* ===================== UPLOAD FORM ===================== */
+.assignment-form {
+  background: #fff;
+  padding: 35px 40px;
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  transition: all 0.3s ease;
+}
+
+.assignment-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  color: #374151;
+  font-size: 1rem;
+}
+
+.assignment-form input,
+.assignment-form textarea,
+.assignment-form select {
+  margin-top: 8px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: rgb(219, 235, 238);
+}
+
+.assignment-form input:focus,
+.assignment-form textarea:focus,
+.assignment-form select:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 12px rgba(79, 70, 229, 0.25);
+}
+.view-section select{
+  margin-top: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  font-size: 15px;
+  background: rgb(219, 235, 238);
+  transition: all 0.3s ease;
+}
+.assignment-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* File Upload Guidelines */
+.file-guidelines {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* ===================== BUTTON ===================== */
+.btn-submit {
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  background: linear-gradient(90deg, #4f46e5, #6366f1);
+  color: #fff;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+}
+
+.btn-submit:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.4);
+}
+
+/* ===================== ASSIGNMENTS CARDS ===================== */
+.assignments-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.assignment-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 16px 30px rgba(0,0,0,0.08);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.assignment-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+.assignment-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #4f46e5;
+}
+
+.assignment-card p {
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+.assignment-card .due-date {
+  font-weight: 600;
+  color: #ef4444;
+}
+
+/* ===================== ACTION BUTTONS ===================== */
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.card-actions button {
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.card-actions .edit {
+  background: #facc15;
+  color: #1f2937;
+}
+
+.card-actions .edit:hover {
+  background: #eab308;
+  transform: translateY(-2px);
+}
+
+.card-actions .delete {
+  background: #ef4444;
+  color: #fff;
+}
+
+.card-actions .delete:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* ===================== TOAST POPUP ===================== */
+.toast-popup {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  padding: 18px 28px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1rem;
+  z-index: 1000;
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  backdrop-filter: blur(5px);
+}
+
+.toast-popup.success { background: #16a34a; }
+.toast-popup.error { background: #dc2626; }
+
+/* ===================== MODAL ===================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal {
+  background: #fff;
+  padding: 35px 40px;
+  border-radius: 20px;
+  width: 550px;
+  max-width: 95%;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+  animation: slideDown 0.3s ease forwards;
+}
+
+/* ===================== ANIMATION ===================== */
+@keyframes slideDown {
+  0% { transform: translateY(-30px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+/* ===================== GLASS & GRADIENT ENHANCEMENTS ===================== */
+
+/* Container Glass Effect */
+.assignments-container {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+}
+
+/* Upload Form / Assignment Form */
+.assignment-form {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+}
+
+/* Assignment Cards */
+.assignment-card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 16px 35px rgba(0,0,0,0.15);
+}
+
+/* Card Action Buttons Gradient */
+.card-actions .edit,
+.card-actions .delete {
+  background: linear-gradient(135deg, #facc15, #f59e0b);
+  color: #1f2937;
+  transition: all 0.3s ease;
+}
+
+.card-actions .edit:hover {
+  background: linear-gradient(135deg, #eab308, #ca8a04);
+  transform: translateY(-2px);
+}
+
+.card-actions .delete {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  color: #fff;
+}
+
+.card-actions .delete:hover {
+  background: linear-gradient(135deg, #dc2626, #991b1b);
+  transform: translateY(-2px);
+}
+
+/* Submit Button Gradient */
+.btn-submit {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: #fff;
+  box-shadow: 0 8px 25px rgba(79,70,229,0.3);
+}
+
+.btn-submit:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(79,70,229,0.4);
+}
+
+/* Toggle Buttons Gradient & Glass */
+.toggle-buttons button {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.toggle-buttons button.active {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(79,70,229,0.3);
+}
+
+/* Toast Popup Gradient */
+.toast-popup.success {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+}
+
+.toast-popup.error {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+}
+
+/* Modal Glass & Gradient */
+.modal {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+}
+/* =========================
+   Overlay & Modal Structure
+========================= */
+
+.edit-assignment-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.edit-assignment-modal {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  width: 90%;
+  max-width: 520px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.4s ease-out;
+  position: relative;
+}
+
+/* =========================
+   Header
+========================= */
+
+.edit-assignment-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.edit-assignment-header h2 {
+  font-size: 1.6rem;
+  color: #222;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* =========================
+   Form
+========================= */
+
+.edit-assignment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* =========================
+   Label + Input Styling
+========================= */
+
+.edit-assignment-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.edit-assignment-input,
+.edit-assignment-textarea,
+.edit-assignment-date,
+.edit-assignment-file {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.edit-assignment-input:focus,
+.edit-assignment-textarea:focus,
+.edit-assignment-date:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+}
+
+.edit-assignment-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.edit-assignment-file {
+  cursor: pointer;
+}
+
+/* =========================
+   Button Section
+========================= */
+
+.edit-assignment-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.edit-assignment-save {
+  background: #007bff;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-assignment-save:hover {
+  background: #0056d2;
+  box-shadow: 0 4px 10px rgba(0, 91, 234, 0.3);
+}
+
+.edit-assignment-cancel {
+  background: #f1f1f1;
+  color: #333;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-assignment-cancel:hover {
+  background: #e0e0e0;
+}
+
+/* =========================
+   Animations
+========================= */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* =========================
+   Responsive Design
+========================= */
+
+@media (max-width: 520px) {
+  .edit-assignment-modal {
+    padding: 24px;
+  }
+
+  .edit-assignment-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .edit-assignment-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .edit-assignment-save,
+  .edit-assignment-cancel {
+    width: 100%;
+  }
+}

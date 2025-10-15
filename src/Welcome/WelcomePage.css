@@ -1,0 +1,121 @@
+
+/* Container */
+.welcome-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom right, #eef2ff, #e0e7ff);
+  position: relative;
+  padding: 0px;
+  text-align: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 16px 32px;
+  background: linear-gradient(90deg, #4338ca, #6366f1);
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+/* Title & Subtitle */
+.title {
+  margin-top: 120px;
+  font-size: 42px;
+  font-weight: 700;
+  color: #1e3a8a;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+}
+
+.subtitle {
+  font-size: 18px;
+  max-width: 720px;
+  margin: 20px auto;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.highlight {
+  font-weight: 600;
+  color: #4338ca;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-large {
+  padding: 14px 32px;
+  font-size: 18px;
+}
+
+.btn-primary {
+  background: #4338ca;
+  color: #fff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #3730a3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(67, 56, 202, 0.4);
+}
+
+.btn-outline {
+  background: #fff;
+  color: #4338ca;
+  border: 2px solid #4338ca;
+}
+
+.btn-outline:hover {
+  background: #f5f5f5;
+  transform: translateY(-2px);
+}
+
+/* Action Buttons container */
+.action-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Footer */
+.footer {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
+}

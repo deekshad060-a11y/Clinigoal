@@ -1,0 +1,251 @@
+.course-details-container {
+  padding: 3rem 8%;
+  background: #f9fafc;
+  color: #1f2937;
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+}
+.course-description{
+  color: white;
+}
+.loading-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  font-size: 1.2rem;
+  color: #374151;
+  gap: 10px;
+}
+/* ===== Video Section ===== */
+.video-section {
+  margin-top: 3rem;
+}
+
+.video-section h2 {
+  color: #1f2937;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #2563eb;
+  padding-left: 0.5rem;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+  justify-items: center;
+  align-items: start;
+}
+
+.video-card {
+  background: white;
+  border-radius: 0.8rem;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  padding: 0.8rem;
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+  width: 220px; /* fixed small size */
+}
+
+.video-card p {
+  margin-top: 0.5rem;
+  color: #1f2937;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.course-video {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  background: #f3f4f6;
+}
+
+.course-header {
+  text-align: center;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.course-header h1 {
+  font-size: 2.4rem;
+  margin-bottom: 1rem;
+}
+
+.course-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.course-duration {
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+/* ===== Materials ===== */
+.materials-section,
+.assignments-section,
+.quizzes-section {
+  margin-top: 3rem;
+}
+
+.materials-grid,
+.assignment-grid,
+.quiz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.material-card,
+.assignment-card,
+.quiz-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: left;
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+}
+
+.material-card h4,
+.assignment-card h4,
+.quiz-card h4 {
+  color: #1e3a8a;
+  margin-bottom: 0.5rem;
+}
+
+.material-card p,
+.assignment-card p,
+.quiz-card p {
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+h2 {
+  color: #1f2937;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #2563eb;
+  padding-left: 0.5rem;
+}
+.restricted-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #eef2ff, #dbeafe);
+  border-radius: 20px;
+  margin: 30px 0;
+}
+
+.lock-box {
+  background: white;
+  padding: 50px;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+}
+
+.lock-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  color: #3b82f6;
+}
+
+.cta-button {
+  display: inline-block;
+  background: #2563eb;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 12px;
+  margin-top: 15px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  background: #1d4ed8;
+  box-shadow: 0px 5px 15px rgba(37, 99, 235, 0.3);
+}
+
+/* Common section styling */
+.materials-section,
+.assignments-section,
+.quizzes-section {
+  margin-top: 60px;
+}
+
+.materials-section h2,
+.assignments-section h2,
+.quizzes-section h2 {
+  text-align: left;
+  color: #2d3436;
+  font-size: 1.8rem;
+  border-left: 5px solid #1e88e5;
+  padding-left: 10px;
+  margin-bottom: 25px;
+}
+
+.grid-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.15);
+}
+
+.card-header h4 {
+  font-size: 1.3rem;
+  color: #1e88e5;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  color: #636e72;
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+}
+
+.card-btn {
+  background: #1e88e5;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.card-btn:hover {
+  background: #0d47a1;
+}
+
+
+
