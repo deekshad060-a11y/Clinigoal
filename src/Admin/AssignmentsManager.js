@@ -93,7 +93,7 @@ export default function AssignmentsManager() {
       }
 
       const res = await axios.put(
-        `http://localhost:5000/assignments/${updatedAssignment._id}`,
+        `https://clinigoal2025.onrender.com/assignments/${updatedAssignment._id}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

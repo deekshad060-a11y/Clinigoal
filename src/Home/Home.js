@@ -13,7 +13,7 @@ export default function HomePage() {
     totalCourses: 0
   });
   
-  const API = "http://localhost:5000";
+  const API = "https://clinigoal2025.onrender.com";
 
   // Fetch courses
   useEffect(() => {

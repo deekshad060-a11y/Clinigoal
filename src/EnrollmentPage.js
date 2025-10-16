@@ -9,7 +9,7 @@ export default function EnrollmentPage() {
   const [assignments, setAssignments] = useState([]);
   const [quizzes, setQuizzes] = useState([]);
   const [isEnrolled, setIsEnrolled] = useState(false);
-  const API = "http://localhost:5000";
+    const API = "https://clinigoal2025.onrender.com";
   const token = localStorage.getItem("token");
 
   // Fetch course details
