@@ -20,6 +20,7 @@ export default function LoginForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, role }),
       });
+
       const data = await res.json();
 
       if (data.token) {
@@ -91,8 +92,8 @@ export default function LoginForm() {
                 onChange={(e) => setRole(e.target.value)}
                 className="dropdown"
               >
-                <option value="student" className="d">Student</option>
-                <option value="admin" className="d">Admin</option>
+                <option value="student">Student</option>
+                <option value="admin">Admin</option>
               </select>
             </div>
 

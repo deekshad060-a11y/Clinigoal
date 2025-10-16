@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./UserPage.css";
 import { jsPDF}  from "jspdf";
-import { FaUser,FaHome, FaBook, FaGraduationCap, FaBullhorn, FaCog,FaSignOutAlt } from "react-icons/fa";
+import { FaUser,FaHome, FaBook, FaGraduationCap, FaBullhorn, FaCog,FaCreditCard,FaChartLine ,FaCommentDots,FaBookOpen,FaTachometerAlt} from "react-icons/fa";
 import ProfileSettings from './ProfileSettings'
 import { useNavigate } from "react-router-dom";
 import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer } from "recharts";
@@ -1261,33 +1261,7 @@ const [certificates, setCertificates] = useState([]);
         </div>
       </div>
 
-      {/* 📊 Course-wise Progress */}
-      <div className="progress-section shadow-card">
-        <h3>📚 Course Progress Breakdown</h3>
-        <div className="progress-grid">
-          {enrolledCourses.length > 0 ? (
-            enrolledCourses.map((courseId, index) => {
-              const course = courses.find(c => c._id === courseId);
-              if (!course) return null;
-              const progress = calculateCourseProgress(course);
-              return (
-                <div key={index} className="progress-card">
-                  <p className="progress-title">{course?.title}</p>
-                  <div className="progress-bar">
-                    <div
-                      className="progress-fill"
-                      style={{ width: `${cprogress}%` }}
-                    ></div>
-                  </div>
-                  <span className="progress-percent">{cprogress}% completed</span>
-                </div>
-              );
-            })
-          ) : (
-            <p>You haven’t enrolled in any courses yet.</p>
-          )}
-        </div>
-      </div>
+      
 
       {/* 🥇 Achievements */}
       <div className="achievement-section shadow-card">
@@ -1382,19 +1356,22 @@ const [selectedPaymentCourse, setSelectedPaymentCourse] = useState(null); // ✅
       <FaHome className="menu-icon" /> Dashboard
     </li>
     <li className={activeTab === "available" ? "active" : ""} onClick={() => setActiveTab("available")}>
-      <FaBook className="menu-icon" /> Available Courses
+      <FaBookOpen className="menu-icon" /> Available Courses
     </li>
     <li className={activeTab === "myCourses" ? "active" : ""} onClick={() => setActiveTab("myCourses")}>
       <FaGraduationCap className="menu-icon" /> My Courses
     </li>
     <li className={activeTab === "feedback" ? "active" : ""} onClick={() => setActiveTab("feedback")}>
-      <FaBook className="menu-icon" /> Your Feedback
+      <FaCommentDots className="menu-icon" /> Your Feedback
     </li>
-    <li className={activeTab === "announcements" ? "active" : ""} onClick={() => setActiveTab("announcements")}>
-      <FaBullhorn className="menu-icon" /> Announcements
+    <li className={activeTab === "activity" ? "active" : ""} onClick={() => setActiveTab("activity")}>
+      <FaBullhorn className="menu-icon" /> Recent activities
+    </li>
+    <li className={activeTab === "progress" ? "active" : ""} onClick={() => setActiveTab("progress")}>
+      <FaChartLine className="menu-icon" /> Your Progress
     </li>
     <li className={activeTab === "payment" ? "active" : ""} onClick={() => setActiveTab("payment")}>
-      <FaBook className="menu-icon" /> Payment History
+      <FaCreditCard className="menu-icon" /> Payment History
     </li>
   </ul>
 
@@ -1403,15 +1380,6 @@ const [selectedPaymentCourse, setSelectedPaymentCourse] = useState(null); // ✅
     <li className={activeTab === "profile" ? "active" : ""} onClick={() => setActiveTab("profile")}>
       <FaCog className="menu-icon" /> Profile
     </li>
-    <li
-    className="logout-btn"
-    onClick={() => {
-      // Optionally, clear localStorage/session here
-      navigate("/home"); // navigate to home page
-    }}
-  >
-    <FaSignOutAlt className="menu-icon" /> Logout
-  </li>
   </ul>
 </div>
 
@@ -1509,35 +1477,125 @@ const [selectedPaymentCourse, setSelectedPaymentCourse] = useState(null); // ✅
     )}
   </div>
 ):
+activeTab === "progress" ? (
+  <div className="progress-tracker-container">
+    <h2>📊 Course Progress Tracker</h2>
+    
+    <div className="progress-cards-grid">
+      {enrolledCourses.map(courseId => {
+        const course = courses.find(c => c._id === courseId);
+        if (!course) return null;
+        
+        const progress = calculateCourseProgress(course);
+        const completedVideos = Object.keys(completedVideosMap[courseId] || {}).length;
+        const totalVideos = course.videos?.length || 0;
+        const pendingAssignments = course.assignments?.filter(a => !a.submitted).length || 0;
+        const pendingQuizzes = course.quizzes?.filter(q => !q.submitted).length || 0;
 
+        return (
+          <div key={courseId} className="progress-tracker-card shadow-card">
+            <div className="progress-header">
+              <h3>{course.title}</h3>
+              
+            </div>
+            
+            <div className="progress-metrics">
+              <div className="metric">
+                <span>🎥 Videos:</span>
+                <span>{completedVideos}/{totalVideos}</span>
+              </div>
+              <div className="metric">
+                <span>📝 Assignments:</span>
+                <span>{pendingAssignments} pending</span>
+              </div>
+              <div className="metric">
+                <span>🧩 Quizzes:</span>
+                <span>{pendingQuizzes} pending</span>
+              </div>
+            </div>
 
-
-          activeTab === "announcements" ? (
-  <div className="announcements-section">
-    <h2>📢 Announcements</h2>
-
-    <div className="announcement-cards">
-      <div className="announcement-card">
-        <div className="announcement-header">
-          <span className="announcement-icon">📝</span>
-          <h4>Certificate Downloads Available</h4>
-        </div>
-        <p>You can now download certificates for completed courses from your profile.</p>
-        <span className="announcement-date">Oct 11, 2025</span>
-      </div>
-
-      <div className="announcement-card">
-        <div className="announcement-header">
-          <span className="announcement-icon">🚀</span>
-          <h4>New Courses Launching</h4>
-        </div>
-        <p>We are launching new courses next week! Check them out in the Available Courses tab.</p>
-        <span className="announcement-date">Oct 10, 2025</span>
-      </div>
+            {progress < 100 && (
+              <button 
+                className="btn btn-small btn-primary"
+                onClick={() => {
+                  setActiveTab("myCourses");
+                  setTimeout(() => handleSelectCourse(courseId), 100);
+                }}
+              >
+                Continue Learning
+              </button>
+            )}
+          </div>
+        );
+      })}
     </div>
   </div>
-)
-: null
+) :
+
+
+        activeTab === "activity" ? (
+  <div className="activity-feed-container">
+    <h2>🕒 Recent Activity</h2>
+    
+    <div className="activity-timeline">
+      {/* Combine all user activities */}
+      {[
+        // Certificate achievements
+        ...certificates.map(cert => ({
+          type: 'certificate',
+          title: `Earned certificate for ${cert.courseTitle}`,
+          timestamp: new Date(),
+          icon: '🏆'
+        })),
+
+        // Assignment submissions
+        ...assignments.filter(a => a.submitted).map(assignment => ({
+          type: 'assignment',
+          title: `Submitted assignment: ${assignment.title}`,
+          timestamp: assignment.submittedAt || new Date(),
+          icon: '📝'
+        })),
+
+        // Quiz completions
+        ...quizzes.filter(q => q.submitted).map(quiz => ({
+          type: 'quiz',
+          title: `Completed quiz: ${quiz.title}`,
+          score: quiz.score,
+          timestamp: quiz.submittedAt || new Date(),
+          icon: '🧩'
+        })),
+
+        // Course enrollments
+        ...approvedCourses.map(courseId => {
+          const course = courses.find(c => c._id === courseId);
+          return course ? {
+            type: 'enrollment',
+            title: `Enrolled in: ${course.title}`,
+            timestamp: new Date(), // You might want to store actual enrollment date
+            icon: '🎓'
+          } : null;
+        }).filter(Boolean)
+
+      ]
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+      .slice(0, 10)
+      .map((activity, index) => (
+        <div key={index} className="activity-item">
+          <div className="activity-icon">{activity.icon}</div>
+          <div className="activity-content">
+            <p className="activity-title">{activity.title}</p>
+            {activity.score && (
+              <span className="activity-score">Score: {activity.score}</span>
+            )}
+            <span className="activity-time">
+              {new Date(activity.timestamp).toLocaleDateString()} • {new Date(activity.timestamp).toLocaleTimeString()}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+) :null
         }
       </div>
 

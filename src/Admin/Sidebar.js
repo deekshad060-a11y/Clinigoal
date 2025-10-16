@@ -4,13 +4,13 @@ import "./AdminDashboard.css";
 export default function Sidebar({ tabs, activeTab, setActiveTab }) {
   return (
     <motion.div
-      className="sidebar"
+      className="side"
       initial={{ x: -80, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
-      <h2 className="logo">Lecturer Panel</h2>
-      <div className="nav-button">
+      <h2 className="lg">Lecturer Panel</h2>
+      <div className="nav-b">
         {tabs.map((tab) => (
           <motion.button
             key={tab.name}

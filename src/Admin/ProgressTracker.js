@@ -73,7 +73,7 @@ export default function ProgressTracker() {
 
   return (
     <div className="progress-tracker-container">
-      <h2 className="page-title">📊 Progress Tracker Dashboard</h2>
+      <h2 className="">📊 Progress Tracker Dashboard</h2>
 
       {/* Course Selector */}
       <div className="course-selector card">

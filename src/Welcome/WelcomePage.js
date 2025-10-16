@@ -10,17 +10,17 @@ export default function WelcomePage() {
     <div className="welcome-container">
       
       {/* Navbar */}
-      <nav className="navbar">
-        <h1 className="logo">Clinigoal</h1>
+      <nav className="nav">
+        <h1 className="logo"> Welcome to Clinigoal </h1>
         <div className="nav-buttons">
           <button 
-            className="btn btn-primary" 
+            className="btn-btn-primary" 
             onClick={() => navigate("/login")}
           >
             Login
           </button>
           <button 
-            className="btn btn-outline" 
+            className="btn-btn-outline" 
             onClick={() => navigate("/signup")}
           >
             Register
@@ -62,7 +62,6 @@ export default function WelcomePage() {
         >
           Get Started
         </button>
-        <button className="btn btn-large btn-outline">Learn More</button>
       </motion.div>
 
       {/* Footer */}

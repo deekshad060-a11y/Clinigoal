@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { LayoutDashboard, BookOpen, FileText, HelpCircle, BarChart2, Users, PlusCircle, User, Mail, Calendar, Award, Clock, Download, CheckCircle, XCircle, Eye, Filter } from "lucide-react";
+import { LayoutDashboard, BookOpen, FileText, HelpCircle, BarChart2, Users, PlusCircle,CreditCard, User, Mail, Calendar, Award, Clock, Download, CheckCircle, XCircle, Eye, Filter } from "lucide-react";
 import axios from "axios";
 import { ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,LabelList } from "recharts";
 import "./AdminDashboard.css";
@@ -40,7 +40,7 @@ export default function LecturerDashboard() {
     { name: "Assignments", icon: <FileText size={18}/> },
     { name: "Quizzes", icon: <HelpCircle size={18}/> },
     { name: "Progress", icon: <BarChart2 size={18}/> },
-    { name: "Payments", icon: <BarChart2 size={18}/> },
+    { name: "Payments", icon: <CreditCard size={18}/> },
     { name: "Testimonial", icon: <FileText size={18}/> },
     { name: "Students", icon: <Users size={18}/> },
     { name: "Enrollments", icon: <CheckCircle size={18}/> }
@@ -521,15 +521,7 @@ export default function LecturerDashboard() {
                       </span>
                     </td>
                     <td>{new Date(enrollment.enrollmentDate).toLocaleDateString()}</td>
-                    <td>
-                      {/* ✅ FIX: Status display */}
-                      <span className={`status-badge status-${enrollment.status}`}>
-                        {enrollment.status === 'pending' && '⏳ Pending'}
-                        {enrollment.status === 'approved' && '✅ Approved'}
-                        {enrollment.status === 'rejected' && '❌ Rejected'}
-                        {!enrollment.status && '❓ Unknown'}
-                      </span>
-                    </td>
+                    
                     <td>
                       <div className="enrollment-actions">
                         <button 
@@ -1160,7 +1152,7 @@ const EnhancedStudentViews = () => {
   };
 
   return (
-    <div className="dashboard">
+    <div className="dash">
       <Sidebar tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}/>
       <motion.div className="main">
         <AnimatePresence mode="wait">

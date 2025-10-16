@@ -8,27 +8,95 @@ import { motion } from "framer-motion";
 import TestimonialManger from "../Admin/Testimonialmanger";
 export default function HomePage() {
   const [courses, setCourses] = useState([]);
-  const API = "http://localhost:5000"; // backend URL
+  const [stats, setStats] = useState({
+    totalEnrollments: 0,
+    totalCourses: 0
+  });
+  
+  const API = "http://localhost:5000";
+
+  // Fetch courses
   useEffect(() => {
     axios
       .get(`${API}/courses`)
       .then((res) => setCourses(res.data))
       .catch((err) => console.error("Error fetching courses:", err));
   }, []);
+
+  // Fetch statistics
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const [coursesRes, usersRes, enrollmentsRes] = await Promise.all([
+          axios.get(`${API}/courses`),
+          axios.get(`${API}/auth/users`),
+          axios.get(`${API}/courses/enrollments/stats`)
+        ]);
+
+        const totalCourses = coursesRes.data.length;
+        const totalStudents = usersRes.data.filter(user => user.role === 'student').length;
+        
+        let totalEnrollments = 0;
+        if (enrollmentsRes.data) {
+          totalEnrollments = enrollmentsRes.data.totalEnrollments || enrollmentsRes.data.length;
+        } else {
+          // Fallback: count all enrollments from all users
+          const allUsers = usersRes.data;
+          totalEnrollments = allUsers.reduce((total, user) => {
+            return total + (user.enrolledCourses ? user.enrolledCourses.length : 0);
+          }, 0);
+        }
+
+        setStats({
+          totalEnrollments,
+          totalCourses
+        });
+
+      } catch (err) {
+        console.error("Error fetching stats:", err);
+        // Fallback to counting from existing data
+        const totalCourses = courses.length;
+        const totalEnrollments = courses.reduce((total, course) => {
+          return total + (course.enrolledStudents ? course.enrolledStudents.length : 0);
+        }, 0);
+        
+        setStats(prev => ({
+          ...prev,
+          totalCourses,
+          totalEnrollments
+        }));
+      }
+    };
+
+    fetchStats();
+  }, [courses.length]);
+
   const navigate = useNavigate();
+  
+  // ✅ FIXED: Use dynamic stats.totalStudents instead of hardcoded 10
   const statsData = [
-    { number: 10000, label: "Active Students", suffix: "+" },
-    { number: 120, label: "Expert Instructors", suffix: "+" },
-    { number: 200, label: "Courses Available", suffix: "+" }
+    { 
+      number: stats.totalEnrollments, 
+      label: "Total Enrollments", 
+      suffix: "+",
+      key: "enrollments"
+    },
+    { 
+      number: stats.totalCourses, 
+      label: "Courses Available", 
+      suffix: "+",
+      key: "courses"
+    }
   ];
 
   const [counts, setCounts] = useState(statsData.map(() => 0));
 
+  // Animation effect for counters
   useEffect(() => {
     statsData.forEach((stat, index) => {
       let start = 0;
       const end = stat.number;
-      const duration = 2000; // animation duration in ms
+      const duration = 2000;
       const increment = end / (duration / 20);
 
       const counter = setInterval(() => {
@@ -43,83 +111,81 @@ export default function HomePage() {
           return updated;
         });
       }, 20);
+      
+      return () => clearInterval(counter);
     });
-  }, []);
-const [searchQuery, setSearchQuery] = useState("");
-const [filteredCourses, setFilteredCourses] = useState([]);
+  }, [stats]);
 
-useEffect(() => {
-  if (!searchQuery) {
-    setFilteredCourses([]);
-    return;
-  }
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredCourses, setFilteredCourses] = useState([]);
 
-  const matches = courses.filter(course =>
-    course.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    if (!searchQuery) {
+      setFilteredCourses([]);
+      return;
+    }
 
-  setFilteredCourses(matches);
-}, [searchQuery, courses]);
+    const matches = courses.filter(course =>
+      course.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
+    setFilteredCourses(matches);
+  }, [searchQuery, courses]);
 
   return (
     <div className="home-container">
       {/* Navbar */}
       <nav className="navbar">
-  <h1 className="logo">Clinigoal</h1>
-  <div className="nav-search">
-  <input
-    type="text"
-    placeholder="Search courses..."
-    value={searchQuery}
-    onChange={(e) => setSearchQuery(e.target.value)}
-  />
+        <h1 className="log">Clinigoal</h1>
+        <div className="n-search">
+          <input
+            type="text"
+            placeholder="Search courses..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
 
-  {filteredCourses.length > 0 && (
-    <div className="search-dropdown">
-      {filteredCourses.map(course => (
-        <p
-          key={course._id}
-          onClick={() => {
-            navigate(`/course/${course._id}`);
-            setSearchQuery(""); // clear search
-          }}
-        >
-          {course.title}
-        </p>
-      ))}
-    </div>
-  )}
-</div>
-
-  <nav className="navbar">
-      <div className="nav-buttons">
-        <button className="btn" onClick={() => navigate("/home")}>Home</button>
-        {/* Courses Dropdown */}
-        <div className="dropdowns">
-          <button className="btn">Courses</button>
-          <div className="dropdown-contents">
-            {courses.length === 0 ? (
-              <p>Loading...</p>
-            ) : (
-              courses.map((course) => (
+          {filteredCourses.length > 0 && (
+            <div className="search-dropdown">
+              {filteredCourses.map(course => (
                 <p
                   key={course._id}
-                  onClick={() => navigate(`/course/${course._id}`)}
+                  onClick={() => {
+                    navigate(`/course/${course._id}`);
+                    setSearchQuery("");
+                  }}
                 >
                   {course.title}
                 </p>
-              ))
-            )}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
-        
-        <button className="btn" onClick={() => navigate("/about")}>About</button>
-        <button className="btn" onClick={() => navigate("/contactus")}>Contact</button>
-        <button className="btn" onClick={() => navigate("/login")}>Register & Login</button>
-      </div>
-    </nav>
-</nav>
+
+        <div className="nav-buttons">
+          <button className="btn" onClick={() => navigate("/home")}>Home</button>
+          <div className="dropdowns">
+            <button className="btn">Courses</button>
+            <div className="dropdown-contents">
+              {courses.length === 0 ? (
+                <p>Loading...</p>
+              ) : (
+                courses.map((course) => (
+                  <p
+                    key={course._id}
+                    onClick={() => navigate(`/course/${course._id}`)}
+                  >
+                    {course.title}
+                  </p>
+                ))
+              )}
+            </div>
+          </div>
+          
+          <button className="btn" onClick={() => navigate("/about")}>About</button>
+          <button className="btn" onClick={() => navigate("/login")}>Register & Login</button>
+        </div>
+      </nav>
 
 
       <header className="hero">
@@ -174,14 +240,7 @@ useEffect(() => {
             Explore Courses
           </motion.button>
 
-          <motion.button
-            className="btn btn-outline"
-            onClick={() => navigate("/about")}
-            whileHover={{ scale: 1.05, backgroundColor: "#2563eb", color: "#fff" }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Learn More
-          </motion.button>
+          
         </motion.div>
       </motion.div>
 
@@ -246,7 +305,7 @@ useEffect(() => {
     { title: "👨‍🏫 Expert Lecturers", text: "Learn from industry professionals and certified instructors with years of practical experience." },
     { title: "📊 Progress Tracking", text: "Track your learning journey, quiz scores, and module completion in an intuitive dashboard." },
     { title: "🎥 Video Tutorials", text: "High-quality video lectures that are easy to follow, with captions and supplementary materials." },
-    { title: "💬 Community Forum", text: "Engage with fellow learners, ask questions, share ideas, and get guidance from mentors." },
+    
   ].map((feature, index) => (
     <motion.div
       key={index}
@@ -293,8 +352,8 @@ useEffect(() => {
     </section>
       {/* Popular Courses */}
 <section className="popular-courses">
-  <h2>Popular Courses</h2>
-
+  
+<p>Popular Courses</p>
   <div className="c-grid">
     {courses.length > 0 ? (
       courses.map((course) => (
@@ -363,7 +422,7 @@ useEffect(() => {
           transition={{ duration: 0.6 }}
           whileHover={{ scale: 1.05, boxShadow: "0px 10px 30px rgba(0,0,0,0.15)" }}
         >
-          <TestimonialManger limit={3}/>
+          <TestimonialManger limit={2}/>
         </motion.div>
       </div>
     </section>
@@ -391,7 +450,6 @@ useEffect(() => {
         <li onClick={() => navigate("/home")}>Home</li>
         <li onClick={() => navigate("/courses")}>Courses</li>
         <li onClick={() => navigate("/about")}>About</li>
-        <li onClick={() => navigate("/contactus")}>Contact</li>
       </ul>
     </div>
     <div className="map">

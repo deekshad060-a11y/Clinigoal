@@ -32,7 +32,7 @@ export default function Header() {
     }, [searchQuery, courses]);
   return (
     <nav className="navbar">
-  <h1 className="logo">Clinigoal</h1>
+  <h1 className="log">Clinigoal</h1>
   <div className="nav-search">
   <input
     type="text"
@@ -57,7 +57,7 @@ export default function Header() {
     </div>
   )}
 </div>
-  <nav className="navbar">
+
       <div className="nav-buttons">
         <button className="btn" onClick={() => navigate("/home")}>Home</button>
         {/* Courses Dropdown */}
@@ -80,10 +80,8 @@ export default function Header() {
         </div>
 
         <button className="btn" onClick={() => navigate("/about")}>About</button>
-        <button className="btn" onClick={() => navigate("/contactus")}>Contact</button>
         <button className="btn" onClick={() => navigate("/login")}>Register & Login</button>
       </div>
-    </nav>
     </nav>
   );
 }
