@@ -12,7 +12,7 @@ export default function MyCourseDetails({ user }) {
   const [userAnswers, setUserAnswers] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const API = "https://clinigoal2025.onrender.com";
+  const API = "http://localhost:5000";
 
   // Fetch course details
   useEffect(() => {
