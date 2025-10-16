@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./AdminDashboard.css"; // Custom CSS
 
 export default function TestimonialManager({ limit = null }) {
-  const API = "http://localhost:5000";
+  const API = "https://clinigoal2025.onrender.com";
   const [feedbacks, setFeedbacks] = useState([]);
 
   const fetchFeedbacks = async () => {

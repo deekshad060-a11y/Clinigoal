@@ -10,7 +10,7 @@ export default function CourseDetail() {
   const [assignmentFile, setAssignmentFile] = useState(null);
 
   const token = localStorage.getItem("token");
-  const API = "http://localhost:5000";
+  const API = "https://clinigoal2025.onrender.com";
 
   useEffect(() => {
     const fetchCourse = async () => {

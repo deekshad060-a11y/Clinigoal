@@ -10,7 +10,7 @@ export default function SignupForm() {
   const [msg, setMsg] = useState("");
   const [msgType, setMsgType] = useState(""); // success or error
   const [showPassword, setShowPassword] = useState(false);
-
+const API = "https://clinigoal2025.onrender.com"; // production backend URL
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

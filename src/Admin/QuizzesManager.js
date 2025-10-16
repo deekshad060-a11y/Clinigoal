@@ -20,7 +20,7 @@ export default function QuizzesManager() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/courses/lecturer/${lecturerId}`);
+        const res = await axios.get(`https://clinigoal2025.onrender.com/courses/lecturer/${lecturerId}`);
         setCourses(res.data);
       } catch {
         showPopup("Failed to fetch courses", "error");
@@ -35,7 +35,7 @@ export default function QuizzesManager() {
 
   const fetchQuizzes = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/quizzes/${courseId}`);
+      const res = await axios.get(`https://clinigoal2025.onrender.com/quizzes/${courseId}`);
       setQuizzes(res.data);
     } catch {
       showPopup("Failed to fetch quizzes", "error");
@@ -71,7 +71,7 @@ export default function QuizzesManager() {
     if (!courseId) return showPopup("Please select a course", "error");
 
     try {
-      const res = await axios.post("http://localhost:5000/quizzes", { title, duration, courseId, questions });
+      const res = await axios.post("https://clinigoal2025.onrender.com/quizzes", { title, duration, courseId, questions });
       setQuizzes([...quizzes, res.data]);
       showPopup("Quiz created successfully!", "success");
       setTitle("");
@@ -92,7 +92,7 @@ export default function QuizzesManager() {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:5000/quizzes/${editQuiz._id}`, { title, duration, courseId, questions });
+      await axios.put(`https://clinigoal2025.onrender.com/quizzes/${editQuiz._id}`, { title, duration, courseId, questions });
       setQuizzes(quizzes.map((q) => (q._id === editQuiz._id ? { ...q, title, duration, questions } : q)));
       showPopup("Quiz updated successfully!", "success");
       setEditQuiz(null);
@@ -107,7 +107,7 @@ export default function QuizzesManager() {
   // --- Delete Quiz ---
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/quizzes/${id}`);
+      await axios.delete(`https://clinigoal2025.onrender.com/quizzes/${id}`);
       setQuizzes(quizzes.filter((q) => q._id !== id));
       showPopup("Quiz deleted successfully!", "success");
       setDeleteQuizId(null);
