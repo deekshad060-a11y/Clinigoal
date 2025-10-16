@@ -17,7 +17,7 @@ import ProgressTracker from "./ProgressTracker";
 import TestimonialManger from "./Testimonialmanger";
 
 export default function LecturerDashboard() {
-  const API = "https://clinigoal2025.onrender.com";
+  const API = "http://localhost:5000";
   const [activeTab, setActiveTab] = useState("Dashboard");
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
