@@ -33,7 +33,7 @@ export default function Header() {
   return (
     <nav className="navbar">
   <h1 className="log">Clinigoal</h1>
-  <div className="nav-search">
+  <div className="n-search">
   <input
     type="text"
     placeholder="Search courses..."
