@@ -106,7 +106,7 @@ const [progress, setProgress] = useState({ assignmentsCompleted: 0, quizzesCompl
   useEffect(() => {
     const fetchProgress = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/dashboard/progress", {
+        const res = await axios.get("https://clinigoal2025-1.onrender.com/api/dashboard/progress", {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token") // your auth token
           }
@@ -333,7 +333,7 @@ const handleSubmitFeedback = async () => {
   
   try {
     // Use user._id from state
-    const response = await axios.post("http://localhost:5000/api/feedback/submit", {
+    const response = await axios.post("https://clinigoal2025-1.onrender.com/api/feedback/submit", {
       userId: user?._id,       // <- use logged-in user
       courseId: selectedCourse._id,
       rating,
@@ -1225,7 +1225,7 @@ const [certificates, setCertificates] = useState([]);
         <div className="stat-card shadow-card">
           <FaBook className="stat-icon" />
           <div>
-             <h3>{cprogress.assignmentsCompleted}</h3>
+             <h3>{progress.assignmentsCompleted}</h3>
              <p>Assignments Completed</p>
             
           </div>
@@ -1234,7 +1234,7 @@ const [certificates, setCertificates] = useState([]);
         <div className="stat-card shadow-card">
   <FaCog className="stat-icon" />
   <div>
-    <h3>{cprogress.quizzesCompleted}</h3>
+    <h3>{progress.quizzesCompleted}</h3>
     <p>Quizzes Completed</p>
   </div>
 </div>
