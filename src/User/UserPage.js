@@ -9,6 +9,7 @@ import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGri
 
 const COLORS = ["#0088FE", "#00C49F"];
 export default function UserDashboard() {
+  
   const navigate = useNavigate();
   const [unlockedVideoIndex, setUnlockedVideoIndex] = useState(0);
 // Add "payment" as a new possible tab
@@ -33,7 +34,6 @@ export default function UserDashboard() {
   agree: false,
   paid: false,
 });
-  const API = "https://clinigoal2025.onrender.com"; // production backend URL
 const [userFeedback, setUserFeedback] = useState([]);
 
 const [showFeedback, setShowFeedback] = useState(false);
@@ -57,7 +57,8 @@ const handleProfileUpload = (e) => {
   };
   reader.readAsDataURL(file);
 };
-
+const token = localStorage.getItem("token");
+  const API = "https://clinigoal2025-1.onrender.com";
 useEffect(() => {
   const fetchCertificates = async () => {
     try {
@@ -73,7 +74,7 @@ useEffect(() => {
   fetchCertificates();
 }, []);
 
-  const token = localStorage.getItem("token");
+  
 
 useEffect(() => {
   const fetchUserData = async () => {
@@ -1348,7 +1349,6 @@ const [selectedPaymentCourse, setSelectedPaymentCourse] = useState(null); // ✅
   </div>
   <span className="user-name-sidebar">{user?.name || "Guest"}</span>
 </div>
-
 
   {/* All menu items except profile */}
   <ul className="sidebar-menu top-menu">

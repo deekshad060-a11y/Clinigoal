@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import "./ProgressTracker.css"; // Ensure this file is linked
 
-const API = "https://clinigoal2025.onrender.com";
+const API = "https://clinigoal2025-1.onrender.com";
 
 export default function ProgressTracker() {
   const [courses, setCourses] = useState([]);

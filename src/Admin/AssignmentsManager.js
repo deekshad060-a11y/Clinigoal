@@ -19,7 +19,7 @@ export default function AssignmentsManager() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await axios.get(`https://clinigoal2025.onrender.com/courses/lecturer/${lecturerId}`);
+        const res = await axios.get(`https://clinigoal2025-1.onrender.com/courses/lecturer/${lecturerId}`);
         setCourses(res.data);
       } catch {
         showPopup("Failed to fetch courses", "error");
@@ -34,7 +34,7 @@ export default function AssignmentsManager() {
 
   const fetchAssignments = async () => {
     try {
-      const res = await axios.get(`https://clinigoal2025.onrender.com/assignments/${courseId}`);
+      const res = await axios.get(`https://clinigoal2025-1.onrender.com/assignments/${courseId}`);
       setAssignments(res.data);
     } catch {
       showPopup("Failed to fetch assignments", "error");
@@ -59,7 +59,7 @@ export default function AssignmentsManager() {
       formData.append("lecturerId", lecturerId);
       files.forEach(f => formData.append("files", f));
 
-      const res = await axios.post("https://clinigoal2025.onrender.com/assignments", formData, {
+      const res = await axios.post("https://clinigoal2025-1.onrender.com/assignments", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -73,7 +73,7 @@ export default function AssignmentsManager() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://clinigoal2025.onrender.com/assignments/${id}`);
+      await axios.delete(`https://clinigoal2025-1.onrender.com/assignments/${id}`);
       setAssignments(assignments.filter(a => a._id !== id));
       showPopup("Assignment deleted successfully!", "success");
       setDeleteAssignmentId(null);
@@ -93,7 +93,7 @@ export default function AssignmentsManager() {
       }
 
       const res = await axios.put(
-        `https://clinigoal2025.onrender.com/assignments/${updatedAssignment._id}`,
+        `https://clinigoal2025-1.onrender.com/assignments/${updatedAssignment._id}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

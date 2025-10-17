@@ -55,7 +55,7 @@ export default function ProfileSettings({ user, setUser }) {
       
       // Save to backend if needed
       const token = localStorage.getItem("token");
-      await fetch("https://clinigoal2025.onrender.com/auth/update-profile", {
+      await fetch("https://clinigoal2025-1.onrender.com/auth/update-profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +114,7 @@ export default function ProfileSettings({ user, setUser }) {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("https://clinigoal2025.onrender.com/auth/change-password", {
+      const response = await fetch("https://clinigoal2025-1.onrender.com/auth/change-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

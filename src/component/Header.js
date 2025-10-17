@@ -7,7 +7,7 @@ import "./Header.css";
 export default function Header() {
   const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
-    const API = "http://localhost:5000"; // backend URL
+    const API = "https://clinigoal2025-1.onrender.com"; // backend URL
     useEffect(() => {
       axios
         .get(`${API}/courses`)

@@ -30,7 +30,7 @@ export default function CoursesManager() {
   const fetchCourses = async () => {
     try {
       const res = await axios.get(
-        `https://clinigoal2025.onrender.com/courses/lecturer/${lecturerId}`
+        `https://clinigoal2025-1.onrender.com/courses/lecturer/${lecturerId}`
       );
 
       const formattedCourses = res.data.map((course) => ({
@@ -83,7 +83,7 @@ export default function CoursesManager() {
       videos.forEach((v) => formData.append("videos", v));
       materials.forEach((m) => formData.append("materials", m));
 
-      await axios.post("https://clinigoal2025.onrender.com/courses", formData, {
+      await axios.post("https://clinigoal2025-1.onrender.com/courses", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -105,7 +105,7 @@ export default function CoursesManager() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://clinigoal2025.onrender.com/courses/${id}`);
+      await axios.delete(`https://clinigoal2025-1.onrender.com/courses/${id}`);
       setCourses(courses.filter((c) => c._id !== id));
       if (selectedCourse?._id === id) setSelectedCourse(null);
       setDeleteCourseId(null);
@@ -131,7 +131,7 @@ export default function CoursesManager() {
       );
 
       await axios.put(
-        `https://clinigoal2025.onrender.com/courses/${updatedCourse._id}`,
+        `https://clinigoal2025-1.onrender.com/courses/${updatedCourse._id}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

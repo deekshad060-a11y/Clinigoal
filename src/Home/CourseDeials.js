@@ -11,7 +11,7 @@ export default function CourseDetails() {
   const [assignments, setAssignments] = useState([]);
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const API = "https://clinigoal2025.onrender.com"; // production backend URL
+  const API = "https://clinigoal2025-1.onrender.com"; // production backend URL
 
   useEffect(() => {
     const fetchData = async () => {
