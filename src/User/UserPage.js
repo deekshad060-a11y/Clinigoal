@@ -1225,7 +1225,7 @@ const [certificates, setCertificates] = useState([]);
         <div className="stat-card shadow-card">
           <FaBook className="stat-icon" />
           <div>
-             <h3>{progress.assignmentsCompleted}</h3>
+             <h3>{cprogress.assignmentsCompleted}</h3>
              <p>Assignments Completed</p>
             
           </div>
@@ -1234,7 +1234,7 @@ const [certificates, setCertificates] = useState([]);
         <div className="stat-card shadow-card">
   <FaCog className="stat-icon" />
   <div>
-    <h3>{progress.quizzesCompleted}</h3>
+    <h3>{cprogress.quizzesCompleted}</h3>
     <p>Quizzes Completed</p>
   </div>
 </div>
