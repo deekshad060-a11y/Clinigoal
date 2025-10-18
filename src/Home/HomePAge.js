@@ -23,6 +23,32 @@ export default function HomePage() {
       .catch((err) => console.error("Error fetching courses:", err));
   }, []);
 
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        `${API}/api/newsletter/subscribe`,
+        { email }
+      );
+      setMessage(res.data.message);
+      setEmail("");
+    } catch (err) {
+      setMessage(
+        err.response?.data?.message || "Failed to subscribe. Try again!"
+      );
+    }
+  };
+   const [admins, setAdmins] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${API}/auth/admins`)
+      .then((res) => setAdmins(res.data))
+      .catch((err) => console.error("Error fetching admins:", err));
+  }, []);
   // Fetch statistics
   useEffect(() => {
     const fetchStats = async () => {
@@ -379,28 +405,28 @@ export default function HomePage() {
 </section>
 
 
-      {/* Instructors */}
       <section className="instructors">
-        <h2>Meet Our Expert Instructors</h2>
-        <div className="instructor-grid">
-          <div className="instructor-card">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVrNIrc_GMNFCWvfIVx-5-1jI0YMf-3a6yyg&s" alt="Instructor" />
-            <h3>Dr. Sarah Thompson</h3>
-            <p>Clinical Research Expert</p>
-          </div>
-          <div className="instructor-card">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVrNIrc_GMNFCWvfIVx-5-1jI0YMf-3a6yyg&s" alt="Instructor" />
-            <h3>Prof. David Lee</h3>
-            <p>Medical Coding Specialist</p>
-          </div>
-          <div className="instructor-card">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVrNIrc_GMNFCWvfIVx-5-1jI0YMf-3a6yyg&s" alt="Instructor" />
-            <h3>Dr. Priya Menon</h3>
-            <p>Pharmacovigilance Trainer</p>
-          </div>
-        </div>
-      </section>
-
+      <h2>Meet Our Expert Instructors</h2>
+      <div className="instructor-grid">
+        {admins.length > 0 ? (
+          admins.map((admin) => (
+            <div className="instructor-card" key={admin._id}>
+              <img
+                src={
+                  admin.image ||
+                  "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                }
+                alt={admin.name}
+              />
+              <h3>{admin.name}</h3>
+              <p>{admin.email}</p>
+            </div>
+          ))
+        ) : (
+          <p>No instructors available yet.</p>
+        )}
+      </div>
+    </section>
      
 
       <section className="t-section">
@@ -427,15 +453,23 @@ export default function HomePage() {
       </div>
     </section>
 
-      {/* Newsletter */}
       <section className="newsletter">
-        <h2>Stay Updated with Clinigoal</h2>
-        <p>Subscribe to our newsletter and never miss new courses or webinars.</p>
-        <form className="newsletter-form">
-          <input type="email" placeholder="Enter your email" />
-          <button className="btn btn-primary" type="submit">Subscribe</button>
-        </form>
-      </section>
+      <h2>Stay Updated with Clinigoal</h2>
+      <p>Subscribe to our newsletter and never miss new courses or webinars.</p>
+      <form className="newsletter-form" onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <button className="btn btn-primary" type="submit">
+          Subscribe
+        </button>
+      </form>
+      {message && <p className="message">{message}</p>}
+    </section>
 
       {/* Footer */}
       <footer className="home-footer">

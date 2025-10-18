@@ -103,7 +103,7 @@ export default function LoginForm() {
           </form>
 
           <div className="auth-links">
-            <a href="/signup">Create Account</a> |{" "}
+            <a href="/signup">Create Account |</a> {" "}
             <a href="/forgot-password">Forgot Password?</a>
           </div>
         </div>

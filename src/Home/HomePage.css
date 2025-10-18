@@ -176,6 +176,9 @@
   width: 100%;
   height: 40px;
 }
+.n-search input::placeholder{
+  align-items: center;
+}
 .nav-search {
   position: relative; /* important for dropdown positioning */
   flex: 2;
@@ -186,6 +189,7 @@
 
 
 .nav-search input {
+  padding: 10px 10px;
   width: 100%;
   padding: 12px 45px 12px 15px;
   border: 1px solid #ccc;

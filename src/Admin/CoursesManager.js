@@ -201,146 +201,204 @@ export default function CoursesManager() {
         </button>
       </div>
 
-      {/* Upload Section */}
       {activeTab === "upload" && (
+  <motion.div
+    className="upload-card"
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+  >
+    {/* Upload Guidelines Toggle */}
+    <div className="guidelines-toggle">
+      <button
+        className="btn-secondary"
+        onClick={() => setShowGuide(!showGuide)}
+        type="button"
+      >
+        {showGuide ? "⬆️ Hide Upload Guidelines" : "📋 Show Upload Guidelines"}
+      </button>
+    </div>
+
+    <AnimatePresence>
+      {showGuide && (
         <motion.div
-          className="upload-card"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          className="guidelines-box"
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.3 }}
         >
-          
-
-          {/* 🔹 Collapsible Upload Guidelines */}
-          <button
-            className="btn-secondary"
-            onClick={() => setShowGuide(!showGuide)}
-          >
-            {showGuide ? "⬆ Hide Upload Guidelines" : "📋 View Upload Guidelines"}
-          </button>
-
-          <AnimatePresence>
-            {showGuide && (
-              <motion.div
-                className="guidelines-box"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-              >
-                <h4>Course Upload Guidelines</h4>
-                <ul>
-                  <li>Use a clear, descriptive course title.</li>
-                  <li>Keep your description concise (3–6 lines).</li>
-                  <li>Duration format: "4 weeks", "2 months", etc.</li>
-                  <li>Fees should be numeric (₹ automatically added).</li>
-                  <li>Image: JPG/PNG, 1200×800 px, professional.</li>
-                  <li>Videos: MP4/MOV, under 100MB each.</li>
-                  <li>Materials: PDF/DOCX/PPTX, under 10MB each.</li>
-                  <li>Ensure no duplicate title before uploading.</li>
-                </ul>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Upload Form */}
-          <form className="styled-form" onSubmit={handleSubmit}>
-            <div className="form-grid">
-              <div className="form-group">
-                <label>Course Title</label>
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Enter course title"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Duration</label>
-                <input
-                  type="text"
-                  value={duration}
-                  onChange={(e) => setDuration(e.target.value)}
-                  placeholder="e.g. 6 weeks"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Course Fees (₹)</label>
-                <input
-                  type="number"
-                  value={fees}
-                  onChange={(e) => setFees(e.target.value)}
-                  placeholder="Enter fee amount"
-                  required
-                />
-              </div>
-
-              <div className="form-group full-width">
-                <label>Description</label>
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Write a brief description of your course"
-                  rows="4"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Course Image</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    setImage(e.target.files[0]);
-                    setImagePreview(URL.createObjectURL(e.target.files[0]));
-                  }}
-                />
-                {imagePreview && (
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    className="course-image-preview"
-                  />
-                )}
-              </div>
-
-              <div className="form-group">
-                <label>Upload Videos</label>
-                <input
-                  type="file"
-                  multiple
-                  accept="video/*"
-                  onChange={(e) => setVideos([...e.target.files])}
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Upload Materials</label>
-                <input
-                  type="file"
-                  multiple
-                  onChange={(e) => setMaterials([...e.target.files])}
-                />
-              </div>
-            </div>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              type="submit"
-              className="btn-upload"
-            >
-              Upload Course
-            </motion.button>
-          </form>
+          <h4>📝 Course Upload Guidelines</h4>
+          <ul>
+            <li>✅ Use a clear, descriptive course title (3-8 words)</li>
+            <li>✅ Write a compelling description (150-300 characters)</li>
+            <li>✅ Set appropriate duration (e.g., "6 weeks", "3 months")</li>
+            <li>✅ Add reasonable course fees (numeric only)</li>
+            <li>✅ Upload high-quality course image (1200×800px recommended)</li>
+            <li>✅ Include engaging videos (MP4, max 100MB each)</li>
+            <li>✅ Provide helpful materials (PDF/DOC/PPT, max 10MB each)</li>
+            <li>✅ Ensure no duplicate course titles</li>
+          </ul>
         </motion.div>
       )}
+    </AnimatePresence>
 
+    {/* Enhanced Form */}
+    <form className="styled-form" onSubmit={handleSubmit}>
+      <div className="form-grid">
+        
+        {/* Basic Information Section */}
+        <h4 className="form-section-header">📚 Basic Information</h4>
+        
+        <div className="form-group full-width">
+          <label className="required-field">Course Title</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="e.g., Advanced Clinical Research Methods"
+            required
+            maxLength={100}
+          />
+          <div className="char-counter">{title.length}/100</div>
+        </div>
+
+        <div className="form-group">
+          <label className="required-field">Duration</label>
+          <input
+            type="text"
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
+            placeholder="e.g., 8 weeks, 3 months"
+            required
+          />
+          <div className="form-help-text">Estimated time to complete</div>
+        </div>
+
+        <div className="form-group">
+          <label className="required-field">Course Fees (₹)</label>
+            <input
+            type="number"
+            value={fees}
+            onChange={(e) => setFees(e.target.value)}
+            placeholder="Enter amount"
+            required
+            min="0"
+          />
+          <div className="form-help-text">Set to 0 for free courses</div>
+        </div>
+
+        <div className="form-group full-width">
+          <label className="required-field">Course Description</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Describe what students will learn, key topics covered, and learning outcomes..."
+            rows="4"
+            required
+            maxLength={500}
+          />
+          <div className="char-counter">{description.length}/500</div>
+        </div>
+
+        {/* Media Upload Section */}
+        <h4 className="form-section-header">🖼️ Course Media</h4>
+
+        <div className="form-group">
+          <label className="required-field">Course Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              setImage(file);
+              setImagePreview(file ? URL.createObjectURL(file) : null);
+            }}
+            required
+          />
+          {imagePreview && (
+            <div className="image-preview-container">
+              <img
+                src={imagePreview}
+                alt="Course preview"
+                className="course-image-preview"
+              />
+              <button
+                type="button"
+                className="btn-remove-image"
+                onClick={() => {
+                  setImage(null);
+                  setImagePreview(null);
+                }}
+              >
+                Remove
+              </button>
+            </div>
+          )}
+          <div className="form-help-text">JPG/PNG, 1200×800px recommended</div>
+        </div>
+
+        <div className="form-group">
+          <label>Course Videos</label>
+          <input
+            type="file"
+            multiple
+            accept="video/*"
+            onChange={(e) => setVideos([...e.target.files])}
+          />
+          {videos.length > 0 && (
+            <span className="file-count-badge">
+              {videos.length} video{videos.length !== 1 ? 's' : ''} selected
+            </span>
+          )}
+          <div className="form-help-text">MP4/MOV, max 100MB each</div>
+        </div>
+
+        <div className="form-group">
+          <label>Course Materials</label>
+          <input
+            type="file"
+            multiple
+            accept=".pdf,.doc,.docx,.ppt,.pptx,.txt"
+            onChange={(e) => setMaterials([...e.target.files])}
+          />
+          {materials.length > 0 && (
+            <span className="file-count-badge">
+              {materials.length} file{materials.length !== 1 ? 's' : ''} selected
+            </span>
+          )}
+          <div className="form-help-text">PDF/DOC/PPT/TXT, max 10MB each</div>
+        </div>
+      </div>
+
+      {/* Submit Button */}
+      <div className="upload-button-container">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          type="submit"
+          className="btn-upload"
+          disabled={!title || !description || !duration || !fees || !image}
+        >
+          🚀 Upload Course
+        </motion.button>
+        
+        {/* Form Status */}
+        <div className="form-status">
+          {!title || !description || !duration || !fees || !image ? (
+            <span className="form-help-text">
+              Please fill all required fields to upload
+            </span>
+          ) : (
+            <span className="form-help-text success">
+              ✅ All set! Ready to upload your course
+            </span>
+          )}
+        </div>
+      </div>
+    </form>
+  </motion.div>
+)}
       {/* Rest of your existing “View” and “Enrollment” sections remain same */}
       {/* ✅ (No changes needed below this line) */}
 

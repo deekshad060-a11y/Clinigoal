@@ -9,7 +9,7 @@ export default function Sidebar({ tabs, activeTab, setActiveTab }) {
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
-      <h2 className="lg">Lecturer Panel</h2>
+      <h2 className="lg">Admin Panel</h2>
       <div className="nav-b">
         {tabs.map((tab) => (
           <motion.button
