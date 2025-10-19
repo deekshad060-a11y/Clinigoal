@@ -46,13 +46,44 @@ export default function LecturerDashboard() {
     { name: "Enrollments", icon: <CheckCircle size={18}/> }
   ];
 
-  // Fetch functions
-  const fetchStudents = async () => { 
-    try { 
-      const res = await axios.get(`${API}/auth/students`); 
-      setStudents(res.data); 
-    } catch(err){console.error(err);} 
-  };
+  const [studentsLoading, setStudentsLoading] = useState(true); // Add this state
+
+const fetchStudents = async () => { 
+  try { 
+    setStudentsLoading(true);
+    const res = await axios.get(`${API}/auth/students`); 
+    
+    // Enhanced debugging
+    console.log("📊 Full API Response:", res);
+    console.log("🔍 Response status:", res.status);
+    console.log("📋 Students data from backend:", res.data); 
+    
+    if (res.data && res.data.length > 0) {
+      console.log("🔍 First student FULL data:", res.data[0]);
+      console.log("✅ All fields in first student:", Object.keys(res.data[0]));
+      console.log("📅 Last login field exists:", 'lastLogin' in res.data[0]);
+      console.log("📅 Last login value:", res.data[0].lastLogin);
+      console.log("📅 Last login type:", typeof res.data[0].lastLogin);
+      
+      // Check if createdAt exists as fallback
+      console.log("📅 CreatedAt field exists:", 'createdAt' in res.data[0]);
+      console.log("📅 CreatedAt value:", res.data[0].createdAt);
+    } else {
+      console.log("❌ No students data received");
+    }
+    
+    setStudents(res.data); 
+  } catch(err) {
+    console.error("❌ Error fetching students:", err); 
+    console.error("❌ Error response:", err.response?.data);
+  } finally {
+    setStudentsLoading(false);
+  }
+};
+const refreshStudents = async () => {
+  console.log("🔄 Manually refreshing students data...");
+  await fetchStudents();
+};
 
   const fetchCourses = async () => { 
     try { 
@@ -326,48 +357,48 @@ export default function LecturerDashboard() {
   }, []);
 
   // ✅ FIXED: Mock data - prevent duplicate counting
-  useEffect(() => {
-    if (students.length === 0) {
-      // Create unique students without duplicate enrollments
-      setStudents([
-        {
-          _id: "1",
-          name: "Deeksha",
-          email: "deekshad060@gmail.com",
-          enrolledCourses: ["1"], // Only one course per student
-          enrolledAt: new Date(),
-          lastLogin: new Date()
-        },
-        {
-          _id: "2",
-          name: "Rohan",
-          email: "rohan@example.com", 
-          enrolledCourses: ["1"], // Only one course per student
-          enrolledAt: new Date(),
-          lastLogin: new Date()
-        }
-      ]);
-    }
+  // useEffect(() => {
+  //   if (students.length === 0) {
+  //     // Create unique students without duplicate enrollments
+  //     setStudents([
+  //       {
+  //         _id: "1",
+  //         name: "Deeksha",
+  //         email: "deekshad060@gmail.com",
+  //         enrolledCourses: ["1"], // Only one course per student
+  //         enrolledAt: new Date(),
+  //         lastLogin: new Date()
+  //       },
+  //       {
+  //         _id: "2",
+  //         name: "Rohan",
+  //         email: "rohan@example.com", 
+  //         enrolledCourses: ["1"], // Only one course per student
+  //         enrolledAt: new Date(),
+  //         lastLogin: new Date()
+  //       }
+  //     ]);
+  //   }
 
-    if (courses.length === 0) {
-      setCourses([
-        {
-          _id: "1",
-          title: "Clinical Research",
-          description: "Advanced clinical research methodology",
-          fees: 500,
-          duration: "4 weeks"
-        },
-        {
-          _id: "2", 
-          title: "Data Science",
-          description: "Complete data science course",
-          fees: 600,
-          duration: "6 weeks"
-        }
-      ]);
-    }
-  }, [students.length, courses.length]);
+  //   if (courses.length === 0) {
+  //     setCourses([
+  //       {
+  //         _id: "1",
+  //         title: "Clinical Research",
+  //         description: "Advanced clinical research methodology",
+  //         fees: 500,
+  //         duration: "4 weeks"
+  //       },
+  //       {
+  //         _id: "2", 
+  //         title: "Data Science",
+  //         description: "Complete data science course",
+  //         fees: 600,
+  //         duration: "6 weeks"
+  //       }
+  //     ]);
+  //   }
+  // }, [students.length, courses.length]);
 
   // ✅ FIXED: Calculate total enrollment correctly
   const totalEnrollment = students.reduce((total, student) => {
@@ -698,7 +729,7 @@ const calculateCourseProgress = (course) => {
 
   return Math.round((completed / total) * 100);
 };
-  // ✅ COMBINED StudentDetailView with Real Data + Progress Tracking UI
+  // ✅ COMBINED StudentDetailView with Real Data + Progress Tracking UI + Last Login
 const StudentDetailView = ({ student }) => {
   if (!student) return (
     <div className="no-student-selected">
@@ -731,7 +762,27 @@ const StudentDetailView = ({ student }) => {
   // Calculate basic statistics from real data
   const totalCourses = enrolledCoursesWithDetails.length;
   const enrollmentDate = studentData.enrolledAt ? new Date(studentData.enrolledAt).toLocaleDateString() : "Not specified";
-  const lastLogin = studentData.lastLogin ? new Date(studentData.lastLogin).toLocaleString() : "Never";
+  const lastLogin = studentData.lastLogin ? new Date(studentData.lastLogin).toLocaleString() : "Never logged in";
+
+  // Format last login for display
+  const formatLastLogin = (loginTime) => {
+    if (loginTime === "Never logged in") return loginTime;
+    
+    const loginDate = new Date(loginTime);
+    const now = new Date();
+    const diffMs = now - loginDate;
+    const diffMins = Math.floor(diffMs / (1000 * 60));
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+    if (diffMins < 1) return "Just now";
+    if (diffMins < 60) return `${diffMins} minutes ago`;
+    if (diffHours < 24) return `${diffHours} hours ago`;
+    if (diffDays === 1) return "Yesterday";
+    if (diffDays < 7) return `${diffDays} days ago`;
+    
+    return loginDate.toLocaleDateString() + " at " + loginDate.toLocaleTimeString();
+  };
 
   // Use progress data from details if available, otherwise use basic data
   const hasProgressData = details && details.totalAssignments !== undefined;
@@ -777,6 +828,10 @@ const StudentDetailView = ({ student }) => {
           <h3>{student.name}</h3>
           <p>{student.email}</p>
           <p>Student ID: {student._id}</p>
+          <div className="last-login-info">
+            <Clock size={16} />
+            <span>Last Login: {formatLastLogin(lastLogin)}</span>
+          </div>
         </div>
       </div>
 
@@ -785,6 +840,18 @@ const StudentDetailView = ({ student }) => {
         <div className="kpi-box total-enrolled">
           <p>Courses Enrolled</p>
           <div className="kpi-value">{totalCourses}</div>
+        </div>
+        
+        {/* Last Login Status Box */}
+        <div className="kpi-box last-login-status">
+          <p>Last Activity</p>
+          <div className="kpi-value">
+            {lastLogin === "Never logged in" ? (
+              <span className="never-logged">Never</span>
+            ) : (
+              formatLastLogin(lastLogin).split(' ')[0] + " ago"
+            )}
+          </div>
         </div>
       </div>
 
@@ -834,9 +901,20 @@ const StudentDetailView = ({ student }) => {
             <label>Courses Enrolled:</label>
             <span>{totalCourses}</span>
           </div>
+          
+          <div className="info-item">
+            <label>Enrollment Date:</label>
+            <span>{enrollmentDate}</span>
+          </div>
+          
+          <div className="info-item">
+            <label>Last Login:</label>
+            <span className={lastLogin === "Never logged in" ? "never-logged" : "recent-login"}>
+              {formatLastLogin(lastLogin)}
+            </span>
+          </div>
         </div>
       </div>
-
 
       {/* Show message if no courses enrolled */}
       {enrolledCoursesWithDetails.length === 0 && (
@@ -844,13 +922,16 @@ const StudentDetailView = ({ student }) => {
           <BookOpen size={48} />
           <h3>No Course Enrollment</h3>
           <p>This student is not enrolled in any courses yet.</p>
+          <div className="last-login-note">
+            <Clock size={16} />
+            <span>Last Activity: {formatLastLogin(lastLogin)}</span>
+          </div>
         </div>
       )}
     </div>
   );
 };
-  // Enhanced Student Views Component
- // ✅ FIXED: Enhanced Student Views Component - Simplified Registered View
+ // ✅ FIXED: Enhanced Student Views Component with proper loading and real data
 const EnhancedStudentViews = () => {
   // Filter students based on the selected view
   const getFilteredStudents = () => {
@@ -858,7 +939,8 @@ const EnhancedStudentViews = () => {
       // Show all registered students - simplified data
       return students.map(student => ({
         ...student,
-        courseTitle: student.enrolledCourses && student.enrolledCourses.length > 0 ? "Enrolled" : "Not Enrolled"
+        courseTitle: student.enrolledCourses && student.enrolledCourses.length > 0 ? "Enrolled" : "Not Enrolled",
+        lastLogin: student.lastLogin || null
       }));
     } else {
       // Show only enrolled students (students with at least one course) - detailed data
@@ -875,7 +957,7 @@ const EnhancedStudentViews = () => {
             enrollmentDate: student.enrolledAt ? new Date(student.enrolledAt).toLocaleDateString() : new Date().toLocaleDateString(),
             amountPaid: course?.fees || 0,
             paymentStatus: "Paid",
-            lastLogin: student.lastLogin ? new Date(student.lastLogin).toLocaleString() : new Date().toLocaleString(),
+            lastLogin: student.lastLogin || null, // Use backend lastLogin
             videosCompleted: details?.videosCompleted || 0,
             assignmentsCompleted: details?.completedAssignments || 0,
             totalAssignments: details?.totalAssignments || 0,
@@ -890,6 +972,77 @@ const EnhancedStudentViews = () => {
   };
 
   const filteredStudents = getFilteredStudents();
+
+  // Enhanced formatLastLogin function with better MongoDB date handling
+  const formatLastLogin = (lastLogin) => {
+    // Handle null, undefined, or invalid dates
+    if (!lastLogin) {
+      return "Never logged in";
+    }
+    
+    try {
+      const loginDate = new Date(lastLogin);
+      
+      // Check if the date is valid
+      if (isNaN(loginDate.getTime())) {
+        console.log("⚠️ Invalid lastLogin date:", lastLogin);
+        return "Invalid date";
+      }
+      
+      const now = new Date();
+      const diffMs = now - loginDate;
+      const diffMins = Math.floor(diffMs / (1000 * 60));
+      const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      
+      if (diffMins < 1) return "Just now";
+      if (diffMins < 60) return `${diffMins}m ago`;
+      if (diffHours < 24) return `${diffHours}h ago`;
+      if (diffDays === 1) return "Yesterday";
+      if (diffDays < 7) return `${diffDays}d ago`;
+      if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
+      
+      return loginDate.toLocaleDateString();
+    } catch (error) {
+      console.error("❌ Error formatting last login:", error, lastLogin);
+      return "Date error";
+    }
+  };
+
+  // Function to get login status for styling
+  const getLoginStatus = (lastLogin) => {
+    if (!lastLogin) return "never";
+    
+    try {
+      const loginDate = new Date(lastLogin);
+      if (isNaN(loginDate.getTime())) return "never";
+      
+      const now = new Date();
+      const diffMs = now - loginDate;
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      
+      if (diffDays < 1) return "recent";
+      if (diffDays < 7) return "recent";
+      if (diffDays < 30) return "moderate";
+      return "inactive";
+    } catch (error) {
+      return "never";
+    }
+  };
+
+  if (studentsLoading) {
+    return (
+      <div className="enhanced-student-views">
+        <div className="students-header">
+          <h2>👥 Student Management</h2>
+        </div>
+        <div className="loading-state">
+          <div className="loading-spinner"></div>
+          <p>Loading students data...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="enhanced-student-views">
@@ -911,6 +1064,17 @@ const EnhancedStudentViews = () => {
         </div>
       </div>
 
+      {/* Debug Info - Keep for now to verify data */}
+      <div style={{padding: '10px', background: '#f0f8ff', borderRadius: '5px', marginBottom: '15px', fontSize: '12px'}}>
+        <strong>Debug Info:</strong> Loaded {students.length} students from backend. 
+        {students.length > 0 && (
+          <>
+            First student: {students[0].name} - 
+            Last Login: {students[0].lastLogin ? new Date(students[0].lastLogin).toLocaleString() : 'Never'}
+          </>
+        )}
+      </div>
+
       <div className="students-content">
         <div className="students-list">
           <h3>
@@ -930,63 +1094,72 @@ const EnhancedStudentViews = () => {
             </div>
           ) : (
             <div className={`students-grid ${studentView === "registered" ? "simple-view" : "detailed-view"}`}>
-              {filteredStudents.map(student => (
-                <div 
-                  key={student._id} 
-                  className={`student-card ${selectedStudent?._id === student._id ? 'selected' : ''} ${
-                    studentView === "registered" ? "simple-card" : "detailed-card"
-                  }`}
-                  onClick={() => setSelectedStudent(student)}
-                >
-                  {/* SIMPLE VIEW - Only for Registered Students */}
-                  {studentView === "registered" && (
-                    <div className="student-simple-view">
-                      <div className="student-avatar-small">
-                        {student.name?.charAt(0) || <User size={20} />}
-                      </div>
-                      <div className="student-basic-info">
-                        <h4>{student.name}</h4>
-                        <p>{student.email}</p>
-                        <span className={`enrollment-status ${
-                          student.enrolledCourses && student.enrolledCourses.length > 0 ? 'enrolled' : 'not-enrolled'
-                        }`}>
-                          {student.enrolledCourses && student.enrolledCourses.length > 0 ? '✅ Enrolled' : '❌ Not Enrolled'}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* DETAILED VIEW - Only for Enrolled Students */}
-                  {studentView === "enrolled" && (
-                    <>
-                      <div className="student-card-header">
+              {filteredStudents.map(student => {
+                const loginStatus = getLoginStatus(student.lastLogin);
+                const formattedLogin = formatLastLogin(student.lastLogin);
+                
+                return (
+                  <div 
+                    key={student._id} 
+                    className={`student-card ${selectedStudent?._id === student._id ? 'selected' : ''} ${
+                      studentView === "registered" ? "simple-card" : "detailed-card"
+                    } login-status-${loginStatus}`}
+                    onClick={() => setSelectedStudent(student)}
+                  >
+                    {/* SIMPLE VIEW - Only for Registered Students */}
+                    {studentView === "registered" && (
+                      <div className="student-simple-view">
                         <div className="student-avatar-small">
                           {student.name?.charAt(0) || <User size={20} />}
                         </div>
                         <div className="student-basic-info">
                           <h4>{student.name}</h4>
                           <p>{student.email}</p>
+                          <div className="student-meta">
+                            <span className={`enrollment-status ${
+                              student.enrolledCourses && student.enrolledCourses.length > 0 ? 'enrolled' : 'not-enrolled'
+                            }`}>
+                              {student.enrolledCourses && student.enrolledCourses.length > 0 ? '✅ Enrolled' : '❌ Not Enrolled'}
+                            </span>
+                            <span className={`last-login-badge login-${loginStatus}`}>
+                              <Clock size={12} /> {formattedLogin}
+                            </span>
+                          </div>
                         </div>
                       </div>
+                    )}
 
-                      {/* Progress Overview for Enrolled Students */}
-                      <div className="student-progress-summary">
-                        
-                       
-                      </div>
+                    {/* DETAILED VIEW - Only for Enrolled Students */}
+                    {studentView === "enrolled" && (
+                      <>
+                        <div className="student-card-header">
+                          <div className="student-avatar-small">
+                            {student.name?.charAt(0) || <User size={20} />}
+                          </div>
+                          <div className="student-basic-info">
+                            <h4>{student.name}</h4>
+                            <p>{student.email}</p>
+                          </div>
+                        </div>
 
-                      <div className="student-status">
-                        <span className={`status ${student.paymentStatus?.toLowerCase() || 'paid'}`}>
-                          {student.paymentStatus || 'Paid'}
-                        </span>
-                        <span className="last-login">
-                          <Clock size={12} /> {student.lastLogin || 'Never'}
-                        </span>
-                      </div>
-                    </>
-                  )}
-                </div>
-              ))}
+                        <div className="student-status">
+                          <span className={`status ${student.paymentStatus?.toLowerCase() || 'paid'}`}>
+                            {student.paymentStatus || 'Paid'}
+                          </span>
+                          <span className={`last-login login-${loginStatus}`}>
+                            <Clock size={12} /> {formattedLogin}
+                          </span>
+                        </div>
+                      </>
+                    )}
+                    <div className="students-header-actions">
+  <button onClick={refreshStudents} className="btn btn-primary btn-refresh">
+    🔄 Refresh Data
+  </button>
+</div>
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>

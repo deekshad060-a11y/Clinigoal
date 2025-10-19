@@ -92,8 +92,8 @@ export default function LoginForm() {
                 onChange={(e) => setRole(e.target.value)}
                 className="dropdown"
               >
-                <option value="student">Student</option>
-                <option value="admin">Admin</option>
+                <option value="student" className="d">Student</option>
+                <option value="admin" className="d">Admin</option>
               </select>
             </div>
 

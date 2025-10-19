@@ -123,7 +123,10 @@ body, html {
   transition: all 0.3s ease;
 }
 .dropdown .d{
-  background: #b3d4e8;
+  background: #c8e0ef;
+  box-shadow: 10px 10px 10px gray;
+  padding: 10px auto;
+  
 }
 .input-group input:focus,
 .input-group select:focus {

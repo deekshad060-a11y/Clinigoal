@@ -179,7 +179,7 @@
 .n-search input::placeholder{
   align-items: center;
 }
-.nav-search {
+.n-search {
   position: relative; /* important for dropdown positioning */
   flex: 2;
   min-width: 500px;
