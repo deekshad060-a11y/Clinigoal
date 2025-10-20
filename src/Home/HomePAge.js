@@ -448,28 +448,46 @@ export default function HomePage() {
           transition={{ duration: 0.6 }}
           whileHover={{ scale: 1.05, boxShadow: "0px 10px 30px rgba(0,0,0,0.15)" }}
         >
-          <TestimonialManger limit={2}/>
+          <TestimonialManger limit={3}/>
         </motion.div>
       </div>
     </section>
 
-      <section className="newsletter">
-      <h2>Stay Updated with Clinigoal</h2>
-      <p>Subscribe to our newsletter and never miss new courses or webinars.</p>
-      <form className="newsletter-form" onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <button className="btn btn-primary" type="submit">
-          Subscribe
-        </button>
-      </form>
-      {message && <p className="message">{message}</p>}
-    </section>
+    
+
+<section className="why-choose-us">
+  <motion.h2
+    initial={{ opacity: 0, y: -30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8 }}
+  >
+    Why Choose Clinigoal?
+  </motion.h2>
+  
+  <ul>
+    {[
+      "🎓 Learn from experienced and qualified lecturers across diverse healthcare fields.",
+      "📜 Receive an industry-recognized certificate after successful course completion.",
+      "💼 Courses designed to enhance your practical and professional skills for real-world applications.",
+      "🌍 Access your courses anytime, anywhere with our user-friendly online learning platform.",
+      "🧭 Stay updated with the latest trends and standards in clinical research and medical coding."
+    ].map((item, index) => (
+      <motion.li
+        key={index}
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ delay: index * 0.1, duration: 0.6 }}
+        whileHover={{ 
+          scale: 1.05,
+          rotate: 0.5,
+          transition: { type: "spring", stiffness: 300 }
+        }}
+      >
+        {item}
+      </motion.li>
+    ))}
+  </ul>
+</section>
 
       {/* Footer */}
       <footer className="home-footer">

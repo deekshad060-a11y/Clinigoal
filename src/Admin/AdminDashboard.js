@@ -729,8 +729,7 @@ const calculateCourseProgress = (course) => {
 
   return Math.round((completed / total) * 100);
 };
-  // ✅ COMBINED StudentDetailView with Real Data + Progress Tracking UI + Last Login
-const StudentDetailView = ({ student }) => {
+  const StudentDetailView = ({ student }) => {
   if (!student) return (
     <div className="no-student-selected">
       <User size={48} />
@@ -743,9 +742,12 @@ const StudentDetailView = ({ student }) => {
 
   const details = studentDetails[student._id];
 
-  // Use real data from student model
+  // Use real data from student model - FIX: Get lastLogin directly from student object
   const studentData = student;
   const enrolledCourses = studentData.enrolledCourses || [];
+  
+  // ✅ FIX: Get lastLogin directly from the student object passed from EnhancedStudentViews
+  const lastLogin = student.lastLogin || studentData.lastLogin || null;
   
   // Get course details for enrolled courses
   const enrolledCoursesWithDetails = enrolledCourses.map(courseId => {
@@ -762,28 +764,51 @@ const StudentDetailView = ({ student }) => {
   // Calculate basic statistics from real data
   const totalCourses = enrolledCoursesWithDetails.length;
   const enrollmentDate = studentData.enrolledAt ? new Date(studentData.enrolledAt).toLocaleDateString() : "Not specified";
-  const lastLogin = studentData.lastLogin ? new Date(studentData.lastLogin).toLocaleString() : "Never logged in";
 
-  // Format last login for display
+  // ✅ FIX: Enhanced formatLastLogin function to handle the data properly
   const formatLastLogin = (loginTime) => {
-    if (loginTime === "Never logged in") return loginTime;
+    // Handle null, undefined, or invalid dates
+    if (!loginTime || loginTime === "null" || loginTime === "undefined") {
+      return "Never logged in";
+    }
     
-    const loginDate = new Date(loginTime);
-    const now = new Date();
-    const diffMs = now - loginDate;
-    const diffMins = Math.floor(diffMs / (1000 * 60));
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    
-    if (diffMins < 1) return "Just now";
-    if (diffMins < 60) return `${diffMins} minutes ago`;
-    if (diffHours < 24) return `${diffHours} hours ago`;
-    if (diffDays === 1) return "Yesterday";
-    if (diffDays < 7) return `${diffDays} days ago`;
-    
-    return loginDate.toLocaleDateString() + " at " + loginDate.toLocaleTimeString();
+    try {
+      const loginDate = new Date(loginTime);
+      
+      // Check if the date is valid
+      if (isNaN(loginDate.getTime())) {
+        console.log("⚠️ Invalid lastLogin date in StudentDetailView:", loginTime);
+        return "Invalid date";
+      }
+      
+      const now = new Date();
+      const diffMs = now - loginDate;
+      const diffMins = Math.floor(diffMs / (1000 * 60));
+      const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      
+      if (diffMins < 1) return "Just now";
+      if (diffMins < 60) return `${diffMins} minutes ago`;
+      if (diffHours < 24) return `${diffHours} hours ago`;
+      if (diffDays === 1) return "Yesterday";
+      if (diffDays < 7) return `${diffDays} days ago`;
+      
+      return loginDate.toLocaleDateString() + " at " + loginDate.toLocaleTimeString();
+    } catch (error) {
+      console.error("❌ Error formatting last login in StudentDetailView:", error, loginTime);
+      return "Date error";
+    }
   };
 
+  // Debug log to see what data we're working with
+  console.log("🔍 StudentDetailView - Student data:", {
+    name: student.name,
+    lastLogin: student.lastLogin,
+    studentDataLastLogin: studentData.lastLogin,
+    finalLastLogin: lastLogin
+  });
+
+  // ... rest of your component remains the same
   // Use progress data from details if available, otherwise use basic data
   const hasProgressData = details && details.totalAssignments !== undefined;
   
@@ -849,7 +874,7 @@ const StudentDetailView = ({ student }) => {
             {lastLogin === "Never logged in" ? (
               <span className="never-logged">Never</span>
             ) : (
-              formatLastLogin(lastLogin).split(' ')[0] + " ago"
+              formatLastLogin(lastLogin)
             )}
           </div>
         </div>
@@ -868,8 +893,8 @@ const StudentDetailView = ({ student }) => {
                 </div>
                 <p className="course-description">{course.description}</p>
                 <div className="course-details">
-                  <span className="course-fee">₹{course.fees}</span>
-                  <span className="course-duration">{course.duration}</span>
+                  <span className="course-fee">Course Fees: ₹{course.fees}</span><br></br>
+                  <span className="course-duration">Course Duration: {course.duration}</span>
                 </div>
                 <div className="course-status">
                   <span className="status-badge enrolled">Enrolled</span>
@@ -902,10 +927,6 @@ const StudentDetailView = ({ student }) => {
             <span>{totalCourses}</span>
           </div>
           
-          <div className="info-item">
-            <label>Enrollment Date:</label>
-            <span>{enrollmentDate}</span>
-          </div>
           
           <div className="info-item">
             <label>Last Login:</label>
@@ -1047,7 +1068,7 @@ const EnhancedStudentViews = () => {
   return (
     <div className="enhanced-student-views">
       <div className="students-header">
-        <h2>👥 Student Management</h2>
+        <h2> Student Management</h2>
         <div className="view-tabs">
           <button 
             className={studentView === "registered" ? "active" : ""}

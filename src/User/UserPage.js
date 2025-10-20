@@ -718,6 +718,31 @@ useEffect(() => {
   setUnlockedVideosMap(savedUnlocked ? JSON.parse(savedUnlocked) : {});
 }, [user]);
 
+const handlePayment = (courseFee) => {
+  const options = {
+    key: "rzp_test_YourPublicKeyHere", // ⚠️ Use your Razorpay test key ID (not secret)
+    amount: courseFee * 100, // Convert to paise
+    currency: "INR",
+    name: "Clinigoal Courses",
+    description: "Course Enrollment Payment",
+    image: "https://yourwebsite.com/logo.png", // Optional
+    handler: function (response) {
+      alert("Payment successful!");
+      setEnrollFormData((prev) => ({ ...prev, paid: true }));
+    },
+    prefill: {
+      name: enrollFormData?.name || "",
+      email: enrollFormData?.email || "",
+    },
+    theme: {
+      color: "#3399cc",
+    },
+  };
+
+  const rzp = new window.Razorpay(options);
+  rzp.open();
+};
+
 // ------------------------
 // Persist progress to localStorage
 // ------------------------
@@ -1682,7 +1707,7 @@ activeTab === "progress" ? (
               type="button"
               className="btn-pay-now"
               onClick={() => {
-                window.open("https://razorpay.me/@deeksha6039", "_blank");
+                window.open("https://razorpay.me/@deeksha6039",  "_blank");
                 setEnrollFormData((prev) => ({ ...prev, paid: true }));
               }}
             >

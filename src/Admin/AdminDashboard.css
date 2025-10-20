@@ -1734,3 +1734,86 @@
 .student-detail-panel::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
 }
+/* Last Login Status Styles */
+.login-status-recent {
+  border-left: 4px solid #10b981 !important;
+}
+
+.login-status-moderate {
+  border-left: 4px solid #f59e0b !important;
+}
+
+.login-status-inactive {
+  border-left: 4px solid #ef4444 !important;
+}
+
+.login-status-never {
+  border-left: 4px solid #94a3b8 !important;
+}
+
+/* Last Login Badges */
+.last-login-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  width: fit-content;
+  font-weight: 600;
+}
+
+.last-login-badge.login-recent {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.last-login-badge.login-moderate {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.last-login-badge.login-inactive {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.last-login-badge.login-never {
+  background: #f1f5f9;
+  color: #475569;
+}
+.last-login {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.last-login.login-recent {
+  color: #10b981;
+}
+
+.last-login.login-moderate {
+  color: #f59e0b;
+}
+
+.last-login.login-inactive {
+  color: #ef4444;
+}
+
+.last-login.login-never {
+  color: #94a3b8;
+}
+.last-login-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 14px;
+  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 6px 12px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
