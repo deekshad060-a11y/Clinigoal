@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { LayoutDashboard, BookOpen, FileText, HelpCircle, BarChart2, Users, PlusCircle,CreditCard, User, Mail, Calendar, Award, Clock, Download, CheckCircle, XCircle, Eye, Filter } from "lucide-react";
+import { LayoutDashboard, BookOpen, FileText, HelpCircle, BarChart2, Users, PlusCircle,CreditCard,TrendingUp, User, Mail, Calendar, Award, Clock, Download, CheckCircle, XCircle, Eye, Filter } from "lucide-react";
 import axios from "axios";
 import { ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,LabelList } from "recharts";
 import "./AdminDashboard.css";
@@ -1193,25 +1193,24 @@ const EnhancedStudentViews = () => {
   );
 };
   const renderContent = () => {
-    switch(activeTab){
-      case "Dashboard": return <>
-        <DashboardOverview students={students} courses={courses} totalEnrollment={totalEnrollment}/><br></br>
-        <ChartsSection enrollmentData={enrollmentData} pieData={pieData} COLORS={COLORS}/><br></br>
-        <QuickActions setActiveTab={setActiveTab}/><br></br>
-        <RecentActivity students={students} courses={courses}/><br></br>
-      </>;
-      case "Courses": return <CoursesManager />;
-      case "Assignments": return <AssignmentsManager />;
-      case "Quizzes": return <QuizzesManager />;
-      case "Progress": return <ProgressTracker />;
-      case "Testimonial": return <TestimonialManger />;
-      case "Payments": return <PaymentsSection derivedPayments={derivedPayments}/>;
-      case "Students": return <EnhancedStudentViews />;
-      case "Enrollments": return <EnrollmentManager />;
-      default: return <CoursesManager />;
-    }
-  };
-
+  switch(activeTab){
+    case "Dashboard": return <>
+      <DashboardOverview students={students} courses={courses} totalEnrollment={totalEnrollment}/><br></br>
+      <ChartsSection enrollmentData={enrollmentData} pieData={pieData} COLORS={COLORS}/><br></br>
+      <QuickActions setActiveTab={setActiveTab}/><br></br>
+      <RecentActivity students={students} courses={courses}/><br></br>
+    </>;
+    case "Courses": return <CoursesManager />;
+    case "Assignments": return <AssignmentsManager />;
+    case "Quizzes": return <QuizzesManager />;
+    case "Progress": return <ProgressTracker />;
+    case "Testimonial": return <TestimonialManger />;
+    case "Payments": return <PaymentsSection derivedPayments={derivedPayments}/>;
+    case "Students": return <EnhancedStudentViews />;
+    case "Enrollments": return <EnrollmentManager />;
+    default: return <CoursesManager />;
+  }
+};
   return (
     <div className="dash">
       <Sidebar tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}/>

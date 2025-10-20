@@ -36,33 +36,88 @@ export default function DashboardOverview({ students, courses, totalEnrollment }
     return Math.round(progress);
   };
 
-  const averageProgress = calculateAverageProgress();
-
-  // Get progress level for styling
-  const getProgressLevel = () => {
-    if (averageProgress >= 80) return "excellent";
-    if (averageProgress >= 60) return "good";
-    if (averageProgress >= 40) return "average";
-    return "low";
+  // Calculate conversion rate
+  const calculateConversionRate = () => {
+    const totalStudents = students.length;
+    const enrolledStudents = students.filter(s => s.enrolledCourses && s.enrolledCourses.length > 0).length;
+    
+    if (totalStudents === 0) return 0;
+    
+    return Math.round((enrolledStudents / totalStudents) * 100);
   };
 
-  const progressLevel = getProgressLevel();
+  // Calculate visitor metrics (estimated)
+  const calculateVisitorMetrics = () => {
+    const enrolledStudents = students.filter(s => s.enrolledCourses && s.enrolledCourses.length > 0).length;
+    const totalStudents = students.length;
+    
+    // Get from localStorage or estimate
+    const totalVisitors = parseInt(localStorage.getItem('totalVisitors') || '0');
+    const estimatedVisitors = totalVisitors > 0 ? totalVisitors : enrolledStudents * 3;
+    
+    const visitorToSignupRate = estimatedVisitors > 0 ? 
+      Math.round((totalStudents / estimatedVisitors) * 100) : 0;
+    
+    return {
+      totalVisitors: estimatedVisitors,
+      visitorToSignupRate
+    };
+  };
+
+  const averageProgress = calculateAverageProgress();
+  const conversionRate = calculateConversionRate();
+  const visitorMetrics = calculateVisitorMetrics();
+
+  // Get progress level for styling
+  const getProgressLevel = (value, type = "progress") => {
+    if (type === "conversion") {
+      if (value >= 80) return "excellent";
+      if (value >= 60) return "good";
+      if (value >= 40) return "average";
+      return "low";
+    } else {
+      if (value >= 80) return "excellent";
+      if (value >= 60) return "good";
+      if (value >= 40) return "average";
+      return "low";
+    }
+  };
+
+  const progressLevel = getProgressLevel(averageProgress);
+  const conversionLevel = getProgressLevel(conversionRate, "conversion");
+  const visitorLevel = getProgressLevel(visitorMetrics.visitorToSignupRate, "conversion");
 
   return (
     <div className="dashboard-overview">
       <div className="stats-cards">
+        {/* Total Students Card */}
         <motion.div className="cards" whileHover={{ scale: 1.05 }}>
           👩‍🎓 <span>Total Students</span>
           <h3>{students.length}</h3>
+          <div className="card-subtext">
+            {visitorMetrics.totalVisitors} total visitors
+          </div>
         </motion.div>
+
+        {/* Total Courses Card */}
         <motion.div className="cards" whileHover={{ scale: 1.05 }}>
           📘 <span>Total Courses</span>
           <h3>{courses.length}</h3>
+          <div className="card-subtext">
+            {totalEnrollment} total enrollments
+          </div>
         </motion.div>
+
+        {/* Total Enrollment Card */}
         <motion.div className="cards" whileHover={{ scale: 1.05 }}>
           📝 <span>Total Enrollment</span>
           <h3>{totalEnrollment}</h3>
+          <div className="card-subtext">
+            {students.filter(s => s.enrolledCourses && s.enrolledCourses.length > 0).length} enrolled students
+          </div>
         </motion.div>
+
+        {/* Platform Progress Card */}
         <motion.div 
           className={`cards progress-card ${progressLevel}`} 
           whileHover={{ scale: 1.05 }}
@@ -78,9 +133,86 @@ export default function DashboardOverview({ students, courses, totalEnrollment }
               style={{ width: `${averageProgress}%` }}
             ></div>
           </div>
-          
+          <div className="card-subtext">
+            Based on enrollment & course utilization
+          </div>
+        </motion.div>
+
+        {/* Conversion Rate Card */}
+        <motion.div 
+          className={`cards conversion-card ${conversionLevel}`} 
+          whileHover={{ scale: 1.05 }}
+        >
+          <div className="progress-header">
+            📈 <span>Conversion Rate</span>
+            <span className="progress-badge">{conversionLevel}</span>
+          </div>
+          <h3>{conversionRate}%</h3>
+          <div className="progress-container">
+            <div 
+              className="progress-fill" 
+              style={{ width: `${conversionRate}%` }}
+            ></div>
+          </div>
+          <div className="card-subtext">
+            {students.filter(s => s.enrolledCourses && s.enrolledCourses.length > 0).length}/
+            {students.length} students enrolled
+          </div>
+        </motion.div>
+
+        {/* Visitor to Signup Card */}
+        <motion.div 
+          className={`cards visitor-card ${visitorLevel}`} 
+          whileHover={{ scale: 1.05 }}
+        >
+          <div className="progress-header">
+            👥 <span>Visitor to Signup</span>
+            <span className="progress-badge">{visitorLevel}</span>
+          </div>
+          <h3>{visitorMetrics.visitorToSignupRate}%</h3>
+          <div className="progress-container">
+            <div 
+              className="progress-fill" 
+              style={{ width: `${visitorMetrics.visitorToSignupRate}%` }}
+            ></div>
+          </div>
+          <div className="card-subtext">
+            From {visitorMetrics.totalVisitors} visitors
+          </div>
         </motion.div>
       </div>
+
+      {/* Conversion Funnel Mini View */}
+      <motion.div 
+        className="conversion-funnel-mini"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+        <h4>🔄 Conversion Funnel</h4>
+        <div className="funnel-steps">
+          <div className="funnel-step">
+            <div className="funnel-number">{visitorMetrics.totalVisitors}</div>
+            <div className="funnel-label">Visitors</div>
+            <div className="funnel-arrow">↓</div>
+          </div>
+          <div className="funnel-step">
+            <div className="funnel-number">{students.length}</div>
+            <div className="funnel-label">Registered</div>
+            <div className="funnel-arrow">↓</div>
+          </div>
+          <div className="funnel-step">
+            <div className="funnel-number">
+              {students.filter(s => s.enrolledCourses && s.enrolledCourses.length > 0).length}
+            </div>
+            <div className="funnel-label">Enrolled</div>
+          </div>
+        </div>
+        <div className="funnel-rates">
+          <span>Visitor → Signup: {visitorMetrics.visitorToSignupRate}%</span>
+          <span>Signup → Enroll: {conversionRate}%</span>
+        </div>
+      </motion.div>
     </div>
   );
 }
