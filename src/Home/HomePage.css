@@ -198,10 +198,11 @@
   transition: all 0.3s ease;
 }
 
-.nav-search input::placeholder {
-  color: #9ca3af;
+.n-search input::placeholder {
+  color: #1055cd;
   font-style: italic;
   font-size: 15px;
+  text-align: center;
 }
 
 /* Dropdown container */

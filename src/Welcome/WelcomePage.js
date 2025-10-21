@@ -57,7 +57,7 @@ export default function WelcomePage() {
         className="action-buttons"
       >
         <button 
-          className="btn btn-large btn-primary" 
+          className="btn-btn-large-btn-primary" 
           onClick={() => navigate("/home")}
         >
           Get Started

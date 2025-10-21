@@ -235,7 +235,17 @@ width:1200px;
   flex-wrap: wrap;
   justify-content: center;
 }
-
+.action-buttons .btn-btn-large-btn-primary{
+  background-color: #3730a3;
+  color: white;
+  padding:10px 20px;
+  border-radius: 12px;
+  border: 1px solid #3730a3;
+}
+.action-buttons .btn-btn-large-btn-primary:hover{
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transform: scale(1.09);
+}
 /* Features Grid */
 .features-grid {
   display: grid;
