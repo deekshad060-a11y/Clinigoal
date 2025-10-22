@@ -2577,3 +2577,240 @@
     padding: 0.5rem;
   }
 }
+/* Student Completion Section */
+.student-completion-section {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  margin-top: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.section-subtitle {
+  color: #6b7280;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.completion-table {
+  margin-top: 15px;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr 1.5fr;
+  gap: 15px;
+  padding: 15px;
+  background: #f8fafc;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.student-completion-row {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr 1.5fr;
+  gap: 15px;
+  padding: 15px;
+  border-bottom: 1px solid #f1f5f9;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.student-completion-row:hover {
+  background: #f8fafc;
+}
+
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.student-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #4f46e5;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.student-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.student-name {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.student-id {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.student-email {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.enrolled-courses {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.course-count {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 1.1rem;
+}
+
+.course-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.courses-completed {
+  display: flex;
+  justify-content: center;
+}
+
+.certificate-badge {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.completion-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress-container {
+  flex: 1;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #059669);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-weight: 600;
+  color: #374151;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Top Completers Section */
+.top-completers-section {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  margin-top: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.top-completers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.top-completer-card {
+  position: relative;
+  padding: 20px;
+  border: 2px solid #f1f5f9;
+  border-radius: 10px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.top-completer-card:hover {
+  border-color: #10b981;
+  transform: translateY(-2px);
+}
+
+.completer-rank {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #f59e0b;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.completer-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #10b981;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin: 0 auto 15px;
+}
+
+.completer-info h4 {
+  margin: 0 0 5px 0;
+  color: #1f2937;
+}
+
+.completer-info p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.completion-count {
+  margin-top: 15px;
+}
+
+.completion-count .count {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #10b981;
+  line-height: 1;
+}
+
+.completion-count .label {
+  font-size: 0.8rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Completion Card */
+.completion-card {
+  border-left: 4px solid #10b981;
+}

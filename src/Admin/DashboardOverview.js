@@ -4,33 +4,54 @@ import "./AdminDashboard.css";
 
 export default function DashboardOverview({ students, courses, totalEnrollment }) {
   
+  // Calculate certificate statistics for each student
+  const calculateCertificateStats = () => {
+    // Get all certificates from localStorage
+    const allCertificates = JSON.parse(localStorage.getItem("certificates") || "[]");
+    
+    // Count certificates per student
+    const certificatesByStudent = {};
+    allCertificates.forEach(cert => {
+      if (!certificatesByStudent[cert.studentId]) {
+        certificatesByStudent[cert.studentId] = 0;
+      }
+      certificatesByStudent[cert.studentId]++;
+    });
+
+    // Calculate total certificates
+    const totalCertificates = allCertificates.length;
+    
+    // Students with certificates
+    const studentsWithCertificates = students.filter(student => 
+      certificatesByStudent[student._id] > 0
+    ).length;
+
+    return {
+      totalCertificates,
+      studentsWithCertificates,
+      certificatesByStudent
+    };
+  };
+
   // Calculate average progress based on the other three metrics
   const calculateAverageProgress = () => {
     const totalStudents = students.length;
     const totalCourses = courses.length;
     
-    // Avoid division by zero
     if (totalStudents === 0 || totalCourses === 0) return 0;
     
-    // Calculate progress based on:
-    // 1. Enrollment rate (enrollments per student)
     const enrollmentRate = totalEnrollment / totalStudents;
-    
-    // 2. Course utilization (enrollments per course)
     const courseUtilization = totalEnrollment / totalCourses;
     
-    // 3. Platform engagement (combination of both metrics)
-    // Normalize the values to create a balanced progress score
-    const maxExpectedEnrollmentPerStudent = 3; // Assuming avg 3 courses per student
-    const maxExpectedEnrollmentPerCourse = 20; // Assuming avg 20 students per course
+    const maxExpectedEnrollmentPerStudent = 3;
+    const maxExpectedEnrollmentPerCourse = 20;
     
     const normalizedEnrollmentRate = Math.min(enrollmentRate / maxExpectedEnrollmentPerStudent, 1);
     const normalizedCourseUtilization = Math.min(courseUtilization / maxExpectedEnrollmentPerCourse, 1);
     
-    // Calculate weighted average progress
     const progress = (
-      (normalizedEnrollmentRate * 0.6) +      // 60% weight to student engagement
-      (normalizedCourseUtilization * 0.4)     // 40% weight to course utilization
+      (normalizedEnrollmentRate * 0.6) +
+      (normalizedCourseUtilization * 0.4)
     ) * 100;
     
     return Math.round(progress);
@@ -51,7 +72,6 @@ export default function DashboardOverview({ students, courses, totalEnrollment }
     const enrolledStudents = students.filter(s => s.enrolledCourses && s.enrolledCourses.length > 0).length;
     const totalStudents = students.length;
     
-    // Get from localStorage or estimate
     const totalVisitors = parseInt(localStorage.getItem('totalVisitors') || '0');
     const estimatedVisitors = totalVisitors > 0 ? totalVisitors : enrolledStudents * 3;
     
@@ -67,6 +87,7 @@ export default function DashboardOverview({ students, courses, totalEnrollment }
   const averageProgress = calculateAverageProgress();
   const conversionRate = calculateConversionRate();
   const visitorMetrics = calculateVisitorMetrics();
+  const certificateStats = calculateCertificateStats();
 
   // Get progress level for styling
   const getProgressLevel = (value, type = "progress") => {
@@ -117,6 +138,15 @@ export default function DashboardOverview({ students, courses, totalEnrollment }
           </div>
         </motion.div>
 
+        {/* Course Completions Card */}
+        <motion.div className="cards completion-card" whileHover={{ scale: 1.05 }}>
+          🏆 <span>Courses Completed</span>
+          <h3>{certificateStats.totalCertificates}</h3>
+          <div className="card-subtext">
+            {certificateStats.studentsWithCertificates} students certified
+          </div>
+        </motion.div>
+
         {/* Platform Progress Card */}
         <motion.div 
           className={`cards progress-card ${progressLevel}`} 
@@ -159,37 +189,119 @@ export default function DashboardOverview({ students, courses, totalEnrollment }
             {students.length} students enrolled
           </div>
         </motion.div>
+      </div>
 
-        {/* Visitor to Signup Card */}
+      {/* Student Course Completion Table */}
+      <motion.div 
+        className="student-completion-section"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+        <h3>🎓 Student Course Completion</h3>
+        <p className="section-subtitle">
+          Showing certificate count for each student (from UserDashboard)
+        </p>
+        
+        <div className="completion-table">
+          <div className="table-header">
+            <span>Student Name</span>
+            <span>Email</span>
+            <span>Enrolled Courses</span>
+            <span>Courses Completed</span>
+            <span>Completion Rate</span>
+          </div>
+          
+          {students.map(student => {
+            const certificateCount = certificateStats.certificatesByStudent[student._id] || 0;
+            const enrolledCount = student.enrolledCourses?.length || 0;
+            const completionRate = enrolledCount > 0 ? Math.round((certificateCount / enrolledCount) * 100) : 0;
+            
+            return (
+              <div key={student._id} className="student-completion-row">
+                <div className="student-info">
+                  <div className="student-avatar">
+                    {student.name?.charAt(0)?.toUpperCase() || 'U'}
+                  </div>
+                  <div className="student-details">
+                    <span className="student-name">{student.name || 'Unknown User'}</span>
+                    <span className="student-id">ID: {student._id?.substring(0, 8)}...</span>
+                  </div>
+                </div>
+                
+                <div className="student-email">
+                  {student.email || 'No email'}
+                </div>
+                
+                <div className="enrolled-courses">
+                  <span className="course-count">{enrolledCount}</span>
+                  <span className="course-label">courses</span>
+                </div>
+                
+                <div className="courses-completed">
+                  <div className="certificate-badge">
+                    {certificateCount} 🏆
+                  </div>
+                </div>
+                
+                <div className="completion-progress">
+                  <div className="progress-container">
+                    <div 
+                      className="progress-fill"
+                      style={{ width: `${completionRate}%` }}
+                    ></div>
+                  </div>
+                  <span className="progress-text">{completionRate}%</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </motion.div>
+
+      {/* Top Completers */}
+      {certificateStats.totalCertificates > 0 && (
         <motion.div 
-          className={`cards visitor-card ${visitorLevel}`} 
-          whileHover={{ scale: 1.05 }}
+          className="top-completers-section"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
         >
-          <div className="progress-header">
-            👥 <span>Visitor to Signup</span>
-            <span className="progress-badge">{visitorLevel}</span>
-          </div>
-          <h3>{visitorMetrics.visitorToSignupRate}%</h3>
-          <div className="progress-container">
-            <div 
-              className="progress-fill" 
-              style={{ width: `${visitorMetrics.visitorToSignupRate}%` }}
-            ></div>
-          </div>
-          <div className="card-subtext">
-            From {visitorMetrics.totalVisitors} visitors
+          <h3>⭐ Top Course Completers</h3>
+          <div className="top-completers-grid">
+            {students
+              .filter(student => certificateStats.certificatesByStudent[student._id] > 0)
+              .sort((a, b) => certificateStats.certificatesByStudent[b._id] - certificateStats.certificatesByStudent[a._id])
+              .slice(0, 4)
+              .map((student, index) => (
+                <div key={student._id} className="top-completer-card">
+                  <div className="completer-rank">#{index + 1}</div>
+                  <div className="completer-avatar">
+                    {student.name?.charAt(0)?.toUpperCase() || 'U'}
+                  </div>
+                  <div className="completer-info">
+                    <h4>{student.name}</h4>
+                    <p>{student.email}</p>
+                  </div>
+                  <div className="completion-count">
+                    <span className="count">{certificateStats.certificatesByStudent[student._id]}</span>
+                    <span className="label">Courses Completed</span>
+                  </div>
+                </div>
+              ))
+            }
           </div>
         </motion.div>
-      </div>
+      )}
 
       {/* Conversion Funnel Mini View */}
       <motion.div 
         className="conversion-funnel-mini"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
+        transition={{ delay: 0.5 }}
       >
-        <h4>🔄 Conversion Funnel</h4>
+        <h4>🔄 Student Journey</h4>
         <div className="funnel-steps">
           <div className="funnel-step">
             <div className="funnel-number">{visitorMetrics.totalVisitors}</div>
@@ -206,11 +318,12 @@ export default function DashboardOverview({ students, courses, totalEnrollment }
               {students.filter(s => s.enrolledCourses && s.enrolledCourses.length > 0).length}
             </div>
             <div className="funnel-label">Enrolled</div>
+            <div className="funnel-arrow">↓</div>
           </div>
-        </div>
-        <div className="funnel-rates">
-          <span>Visitor → Signup: {visitorMetrics.visitorToSignupRate}%</span>
-          <span>Signup → Enroll: {conversionRate}%</span>
+          <div className="funnel-step">
+            <div className="funnel-number">{certificateStats.totalCertificates}</div>
+            <div className="funnel-label">Completed</div>
+          </div>
         </div>
       </motion.div>
     </div>
