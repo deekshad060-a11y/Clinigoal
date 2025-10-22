@@ -952,7 +952,7 @@ const calculateCourseProgress = (course) => {
     </div>
   );
 };
- // ✅ FIXED: Enhanced Student Views Component with proper loading and real data
+// ✅ FIXED: Enhanced Student Views Component with Delete Option
 const EnhancedStudentViews = () => {
   // Filter students based on the selected view
   const getFilteredStudents = () => {
@@ -989,6 +989,38 @@ const EnhancedStudentViews = () => {
             moduleProgress: details?.moduleProgress || {}
           };
         });
+    }
+  };
+
+  // ✅ ADD: Delete Student Function
+  const deleteStudent = async (studentId, studentName) => {
+    if (!window.confirm(`Are you sure you want to delete student "${studentName}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await axios.delete(`${API}/auth/students/${studentId}`);
+      
+      if (response.status === 200) {
+        alert(`✅ Student "${studentName}" deleted successfully!`);
+        
+        // Remove student from local state
+        setStudents(prev => prev.filter(student => student._id !== studentId));
+        
+        // If deleted student was selected, clear selection
+        if (selectedStudent && selectedStudent._id === studentId) {
+          setSelectedStudent(null);
+        }
+        
+        // Refresh the list
+        await fetchStudents();
+      }
+    } catch (err) {
+      console.error("❌ Error deleting student:", err);
+      alert(`❌ Failed to delete student: ${err.response?.data?.message || err.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -1147,6 +1179,18 @@ const EnhancedStudentViews = () => {
                             </span>
                           </div>
                         </div>
+                        
+                        {/* ✅ ADD: Delete Button for Simple View */}
+                        <button 
+                          className="btn-delete-student"
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent card selection
+                            deleteStudent(student._id, student.name);
+                          }}
+                          title="Delete Student"
+                        >
+                          🗑️
+                        </button>
                       </div>
                     )}
 
@@ -1161,6 +1205,18 @@ const EnhancedStudentViews = () => {
                             <h4>{student.name}</h4>
                             <p>{student.email}</p>
                           </div>
+                          
+                          {/* ✅ ADD: Delete Button for Detailed View */}
+                          <button 
+                            className="btn-delete-student"
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent card selection
+                              deleteStudent(student._id, student.name);
+                            }}
+                            title="Delete Student"
+                          >
+                            🗑️
+                          </button>
                         </div>
 
                         <div className="student-status">
@@ -1173,11 +1229,6 @@ const EnhancedStudentViews = () => {
                         </div>
                       </>
                     )}
-                    <div className="students-header-actions">
-  <button onClick={refreshStudents} className="btn btn-primary btn-refresh">
-    🔄 Refresh Data
-  </button>
-</div>
                   </div>
                 );
               })}
