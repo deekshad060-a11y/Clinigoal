@@ -148,7 +148,7 @@ export default function ProfileSettings({ user, setUser }) {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
-    navigate("/login");
+    navigate("/home");
   };
 
   if (!user) return <div className="profile-loading">Loading profile...</div>;
